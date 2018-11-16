@@ -25,6 +25,7 @@ export const store = new Vuex.Store({
             state.loged  = userData.loged
         },
         clearAuthData (state) {
+            console.log('clearAuthData');
             state.token = null;
             state.loged = null;
             localStorage.removeItem('user-expirationDate')
@@ -34,14 +35,24 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
-        tryAutoLogin({commit, state}){
-            //console.log('tryAutoLogin');
-            commit('authUser', {
-                token: localStorage.getItem('user-token'),
-                loged: localStorage.getItem('user-loged')
-            })
+        //use in App.vue
+        tryAutoLogin({commit}){
+            try{
+                var expiration = parseInt(localStorage.getItem('user-expirationDate'));
+            }catch(e){
+                expiration = 0;
+            }
+            let now = new Date().getTime();
+            if(now > expiration){
+                commit('clearAuthData')
+            }else{
+                commit('authUser', {
+                    token: localStorage.getItem('user-token'),
+                    loged: localStorage.getItem('user-loged')
+                })
+            }
         },
-        login({commit, state, dispatch},data){
+        login({commit},data){
             //console.log('login1',state, data.user, data.token);
             localStorage.setItem('user-expirationDate', data.expires)
             localStorage.setItem('user-token', data.token)
