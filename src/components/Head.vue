@@ -24,7 +24,12 @@
                      </div>
                  </div>
 
-                 <ul class="navbar-nav ml-lg-auto">
+                 <ul v-if="loged" class="navbar-nav ml-lg-auto">
+                         <li class="navbar-brand">
+                           <a class="nav-link nav-link-icon" @click="logout()">
+                              {{loged}} (logout)
+                           </a>
+                         </li>
                      <li class="nav-item dropdown">
                          <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                              <i class="ni ni-settings-gear-65"></i>
@@ -47,9 +52,22 @@
 </template>
 
 <script>
+ import {mapGetters} from 'vuex';
+
  export default {
+   name: 'headcomponent',  
    data(){
       return {  count:0 }
-   }
+   },
+   computed: {
+      ...mapGetters({
+          loged:'loged'
+      })
+   },
+   methods: {
+         logout: function () {
+           this.$store.dispatch('logout');
+         }
+  }
  }
 </script>

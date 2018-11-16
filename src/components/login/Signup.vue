@@ -4,11 +4,11 @@
      <div class="card shadow">
          <div class="card-body">
            <div class="container">
-             <h1 class="form-heading">login Form</h1>
+             <h1 class="form-heading">Formulário de Registro</h1>
              <div class="login-form">
                <div class="main-div">
                    <div class="panel">
-                  <h2>Login</h2>
+                  <h2>Registro</h2>
                   </div>
                        <div class="form-group">
                            <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder="Email Address">
@@ -18,9 +18,11 @@
                            <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="Password">
                            {{password}}
                        </div>
-                       <button v-on:click="loginPost()" class="btn btn-primary">Login</button>
+                       <button v-on:click="postPost()" class="btn btn-primary">Criar</button>
                </div>
+               <p class="botto-text"></p>
             </div>
+
                <ul v-if="errors && errors.length">
                  <li v-for="(error, data) in errors" :key="data">
                    {{data}}{{error.message}}
@@ -54,21 +56,21 @@
         })
      },
      methods: {
-           loginPost: function () {
-             //console.log('loginPost');
-             axios.post('http://www:3000/user/login',{email:this.email,password:this.password },
-                  {  headers: {
-                        'Content-Type': 'application/json'
-                     }
+         postPost: function () {
+               axios.post('http://www:3000/user/signup',{email:this.email,password:this.password },
+                  {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer '+this.token
+                    }
                   }).then(response => {
-                        //console.log('then',response)
-                        this.$store.dispatch('login', response.data);
-                  }).catch(e => {
-                       //console.log('catch',e);
-                       localStorage.removeItem('user-token')
-                       this.errors.push(e)
+                     console.log('then',response)
+                     this.errors.push(response.data)
                   })
-         }
+               .catch(e => {
+                     this.errors.push(e)
+               })
+          }
     }
  }
 </script>
