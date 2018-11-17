@@ -3,14 +3,16 @@ import VueRouter from 'vue-router';
 
 //import {store} from './store';
 
-import Login  from './components/login/Login.vue';
-import Signup from './components/login/Signup.vue';
-import Home   from './components/Home.vue';
+import Login    from './components/login/Login.vue';
+import Signup   from './components/login/Signup.vue';
+import Home     from './components/Home.vue';
+import Registers from './components/registers/registers.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   { path:'/login', component: Login },
+  { path:'/register', component: Registers },
   { path: '/', component: Home,
     beforeEnter (to, from, next) {
           //console.log('store',store.state.loged);

@@ -8,7 +8,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
        loged: '',
-       token: ''
+       token: '',
+       vehicles: []
     },
     getters:{
         loged(state){
@@ -16,9 +17,15 @@ export const store = new Vuex.Store({
         },
         token(state){
            return state.token;
+        },
+        vehicles(state){
+           return state.vehicles;
         }
     },
     mutations: {
+        pullVehicles (state, vehicles) {
+            state.vehicles  = vehicles.vehicles
+        },
         authUser (state, userData) {
             //console.log('authUser',userData)
             state.token  = userData.token
@@ -35,6 +42,11 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
+        pullVehicle({commit},vehicles){
+            commit('pullVehicles', {
+                vehicles: vehicles
+            })
+        },
         //use in App.vue
         tryAutoLogin({commit}){
             try{

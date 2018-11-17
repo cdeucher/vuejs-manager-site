@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <router-link to="/" class="navbar-brand">Dashboard</router-link>
-                <router-link to="/" class="navbar-brand">Home</router-link>
+                <router-link to="/register" class="navbar-brand">CADASTRO</router-link>
                 <router-link to="/login" class="navbar-brand">Login</router-link>
                 <router-link to="/signup" class="navbar-brand">Signup</router-link>
             </div>

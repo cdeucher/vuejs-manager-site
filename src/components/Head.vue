@@ -37,7 +37,6 @@
                          </a>
                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
                              <a class="dropdown-item" href="#">Action</a>
-                             <a class="dropdown-item" href="#">Another action</a>
                              <div class="dropdown-divider"></div>
                              <a class="dropdown-item" href="#">Something else here</a>
                          </div>
@@ -55,7 +54,7 @@
  import {mapGetters} from 'vuex';
 
  export default {
-   name: 'headcomponent',  
+   name: 'headcomponent',
    data(){
       return {  count:0 }
    },
@@ -65,9 +64,9 @@
       })
    },
    methods: {
-         logout: function () {
-           this.$store.dispatch('logout');
-         }
+       logout: function () {
+         this.$store.dispatch('logout');
+       }
   }
  }
 </script>

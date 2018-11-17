@@ -2,7 +2,7 @@
   <div id="app">
     <Head></Head>
     <Bar></Bar>
-    <hr>
+
     <router-view></router-view>
   </div>
 </template>
