@@ -39,7 +39,7 @@
 </template>
 
 <script>
- import Vehicles from './lists/Vehicles.vue';
+ import Vehicles from './dashboard/Vehicles.vue';
 
  export default {
    data(){

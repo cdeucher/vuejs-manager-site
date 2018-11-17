@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     state: {
        loged: '',
        token: '',
+       host: 'http://www:3000',
        vehicles: []
     },
     getters:{
@@ -17,6 +18,9 @@ export const store = new Vuex.Store({
         },
         token(state){
            return state.token;
+        },
+        host(state){
+           return state.host;
         },
         vehicles(state){
            return state.vehicles;

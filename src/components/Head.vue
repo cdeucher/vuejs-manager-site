@@ -24,9 +24,9 @@
                      </div>
                  </div>
 
-                 <ul v-if="loged" class="navbar-nav ml-lg-auto">
+                 <ul v-if="loged" class="navbar-nav ml-lg-auto" style="cursor: pointer">
                          <li class="navbar-brand">
-                           <a class="nav-link nav-link-icon" @click="logout()">
+                           <a class="nav-link nav-link-icon"  @click="logout()">
                               {{loged}} (logout)
                            </a>
                          </li>

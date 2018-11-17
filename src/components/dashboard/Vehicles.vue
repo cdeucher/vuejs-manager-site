@@ -36,7 +36,7 @@
       })
    },
    created () {
-       console.log('Vehicles - created',this.vehicles.length);
+       console.log('Vehicles - load',this.vehicles.length);
        if(this.vehicles.length <= 0){
          console.log('pullVehicles');
          this.pullVehicles();
@@ -48,7 +48,7 @@
    methods: {
          pullVehicles: function () {
            console.log('pullVehicles',this.token);
-           axios.post('http://www:3000/vehicle/search',{ },
+           axios.post('http://www:3000/vehicle/',{ },
               {  headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer '+this.token
