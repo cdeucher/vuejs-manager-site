@@ -4,25 +4,49 @@
     <form>
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <h1>Vehicle</h1>
+                <h1>Owner</h1>
                 <hr>
                 <div class="form-group">
-                    <label for="renavan">RENAVAN</label>
-                    <input type="text" id="renavan"
+                    <label for="nome">NOME</label>
+                    <input type="text" id="nome"
                                     class="form-control"
-                                  v-model="renavan">
+                                  v-model="nome">
                 </div>
                 <div class="form-group">
-                    <label for="modelo">MODELO</label>
-                    <input type="text"   id="modelo"
+                    <label for="cpf">CPF</label>
+                    <input type="text"   id="cpf"
                                       class="form-control"
-                                    v-model="modelo">
+                                    v-model="cpf">
                 </div>
                 <div class="form-group">
-                    <label for="placa">PLACA</label>
-                    <input type="text" id="placa"
+                    <label for="rg">RG</label>
+                    <input type="text" id="rg"
                                     class="form-control"
-                                    v-model="placa">
+                                    v-model="rg">
+                </div>
+                <div class="form-group">
+                    <label for="endereco">ENDEREÇO</label>
+                    <input type="text" id="endereco"
+                                    class="form-control"
+                                    v-model="endereco">
+                </div>
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="text" id="email"
+                                    class="form-control"
+                                    v-model="email">
+                </div>
+                <div class="form-group">
+                    <label for="telefone">TELEFONE</label>
+                    <input type="text" id="telefone"
+                                    class="form-control"
+                                    v-model="telefone">
+                </div>
+                <div class="form-group">
+                    <label for="whats">WHATS</label>
+                    <input type="text" id="whats"
+                                    class="form-control"
+                                    v-model="whats">
                 </div>
                 <div class="form-group">
                     <label for="message">DETALHES</label><br>
@@ -31,15 +55,6 @@
                             rows="5"
                             class="form-control"
                             v-model="detalhes"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="sel1">Select Status:</label>
-                    <select class="form-control" v-model="status">
-                      <option v-for="option in options" v-bind:key="option.value" v-bind:value="option.value">
-                        {{ option.text }}
-                      </option>
-                    </select>
-                    <span>Selecionado: {{ status }}</span>
                 </div>
             </div>
         </div>
@@ -71,21 +86,18 @@
  import {mapGetters} from 'vuex';
 
  export default {
-     name: 'vehicleForm',
+     name: 'ownerForm',
      data(){
         return {
            errors: [],
-           modelo:'',
-           renavan:'',
-           placa:'',
-           detalhes:'',
-           status: 'Proposta',
-           options: [
-                { text: 'Proposta', value: 'Proposta' },
-                { text: 'Vendido', value: 'Vendido' },
-                { text: 'Estoque', value: 'Estoque' },
-                { text: 'Alienado', value: 'Alienado' }
-              ]
+           nome:'',
+           cpf:'',
+           rg:'',
+           endereco:'',
+           email:'',
+           telefone:'',
+           whats:'',
+           detalhes:''
         }
      },
      computed: {
@@ -96,9 +108,9 @@
      },
      methods: {
          submitted: function () {
-           const vehicle = { modelo:this.modelo, renavan:this.renavan, placa:this.placa, detalhes:this.detalhes,status:this.status };
-           console.log(vehicle)
-           axios.post(this.host+'/vehicle/', vehicle,
+           const owner = { nome:this.nome, cpf:this.cpf, rg:this.rg, endereco:this.endereco,email:this.email,telefone:this.telefone,whats:this.whats,detalhes:this.detalhes };
+           console.log(owner)
+           axios.post(this.host+'/owner/', owner,
               {  headers: {
                     //'Content-Type': 'multipart/form-data',
                     'Content-Type': 'application/json',
@@ -107,14 +119,14 @@
               }).then(response => {
                     console.log('then',response)
                     this.errors.push(response.data)
-                    this.confirmRegister(response.data.vehicle._id)
+                    this.confirmRegister(response.data.owner._id)
               }).catch(e => {
                     console.log('catch',e);
                     this.errors.push(e)
               })
          },
-         confirmRegister(vehicleId){
-             this.$router.replace('/vehicle/'+vehicleId+'/edit')
+         confirmRegister(ownerId){
+             this.$router.replace('/owner/'+ownerId+'/edit')
          }
     }
  }

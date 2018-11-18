@@ -43,7 +43,7 @@ export default {
               }
            }).then(response => {
                  console.log('then',response)
-                 this.$parent.pullVehicle();                 
+                 this.$parent.removeImg(this.imgId);                 
            }).catch(e => {
                  console.log('catch',e);
            })

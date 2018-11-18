@@ -2,17 +2,14 @@
    <div>
 
      <div class="card">
-       <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
        <div class="card-body">
-         <h5 class="card-title">{{vehicle.modelo}}</h5>
-         <p class="card-text">{{vehicle.renavan}}</p>
-         <p class="card-text">{{vehicle.descricao}}</p>
+         <h5 class="card-title">{{owner.nome}}</h5>
          <router-link
-                 v-bind:to="`/vehicle/${vehicle._id}/edit`"
+                 v-bind:to="`/owner/${owner._id}/edit`"
                  class="btn btn-primary"
                  style="cursor: pointer">Editar</router-link>
          <router-link
-                 v-bind:to="`/vehicle/${vehicle._id}`"
+                 v-bind:to="`/owner/${owner._id}`"
                  class="btn btn-primary"
                  style="cursor: pointer">Ver</router-link>
        </div>
@@ -27,13 +24,10 @@
  export default {
    data(){
       return {
-          imgHost : '/assets/custom/vehicles/vehicle-not-found.svg'
+
       }
    },
-   mounted(){
-     this.loadImg()
-   },
-   props: ['vehicle'],
+   props: ['owner'],
    computed: {
       ...mapGetters({
           token:'token',
@@ -41,10 +35,6 @@
       })
    },
    methods: {
-       loadImg: function () {
-          if(this.vehicle.imageList[0])
-           this.imgHost = this.host+'/'+this.vehicle.imageList[0].path;
-       }
    }
  }
 </script>

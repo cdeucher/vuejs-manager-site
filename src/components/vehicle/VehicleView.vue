@@ -58,7 +58,7 @@ export default {
                }
             }
             axios.get(this.host+'/vehicle/'+this.vehicleId,auth).then(response => {
-                 console.log('then',response.data.vehicle)
+                 //console.log('then',response.data.vehicle)
                  this.vehicle = response.data.vehicle;
                  this.loadImg()
            }).catch(e => {
@@ -66,7 +66,8 @@ export default {
            })
       },
       loadImg: function () {
-          this.imgHost = this.host+'/'+this.vehicle.vehicleImage
+         if(this.vehicle.imageList[0])
+          this.imgHost = this.host+'/'+this.vehicle.imageList[0].path;
       }
  }
 }

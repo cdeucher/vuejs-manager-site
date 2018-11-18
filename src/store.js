@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
        loged: '',
        token: '',
        host: 'http://www:3000',
-       vehicles: []
+       vehicles: [],
+       owners: []
     },
     getters:{
         loged(state){
@@ -24,11 +25,17 @@ export const store = new Vuex.Store({
         },
         vehicles(state){
            return state.vehicles;
+        },
+        owners(state){
+           return state.owners;
         }
     },
     mutations: {
         pullVehicles (state, vehicles) {
             state.vehicles  = vehicles.vehicles
+        },
+        pullOwners (state, owners) {
+            state.owners  = owners.owners
         },
         authUser (state, userData) {
             //console.log('authUser',userData)
@@ -49,6 +56,11 @@ export const store = new Vuex.Store({
         pullVehicle({commit},vehicles){
             commit('pullVehicles', {
                 vehicles: vehicles
+            })
+        },
+        pullOwners({commit},owners){
+            commit('pullOwners', {
+                owners: owners
             })
         },
         //use in App.vue

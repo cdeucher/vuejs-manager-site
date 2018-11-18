@@ -30,33 +30,22 @@
                         class="form-control"
                         v-model="vehicle.detalhes"></textarea>
             </div>
+            <div class="form-group">
+                <label for="sel1">Select Status:</label>
+                <select class="form-control" v-model="vehicle.status">
+                  <option v-for="option in options" v-bind:key="option.value" v-bind:value="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <span>Selecionado: {{ vehicle.status }}</span>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <div class="row">
                <div class="form-group">
-                 <VehicleMini
-                        v-bind:vehicle="vehicle"
-                        v-bind:host="host"
-                        :vehicleId="vehicleId"
-                        :vehicleImage="vehicle.vehicleImage"></VehicleMini>
-               </div>
-               <div class="form-group">
-                 <VehicleImg
-                        v-for="(Image, data) in imageList"
-                        v-bind:key="data"
-                        v-bind:imgId="Image._id"
-                        v-bind:imgPath="Image.path"></VehicleImg>
-               </div>
-               <div class="form-group">
-                     <label>.</label>
-                     <div class="btn btn-primary btn-sm float-left">
-                         <label>Upload</label>
-                         <input type="file"  @change="onFileChanged">
-                     </div>
-                     <button
-                             class="btn btn-primary"
-                             @click.prevent="imgSubmit">Upload
-                     </button>
+                   <imgGroup
+                      :vehicleId="vehicleId"
+                      :imageList="imageList"></imgGroup>
                </div>
           </div>
       </div>
@@ -83,8 +72,8 @@
 <script>
  import axios from 'axios';
  import {mapGetters} from 'vuex';
- import VehicleMini  from './components/VehicleMini.vue';
- import VehicleImg   from './components/VehicleImg.vue';
+ //import VehicleMini  from './components/VehicleMini.vue';
+ import imgGroup   from '../util/imgGroup.vue';
 
  export default {
      name: 'vehicleedit',
@@ -93,8 +82,13 @@
            errors: [],
            vehicle: {},
            vehicleId: this.$route.params.id,
-           vehicleImage: '',
-           imageList: []
+           imageList: [],
+           options: [
+                { text: 'Proposta', value: 'Proposta' },
+                { text: 'Vendido', value: 'Vendido' },
+                { text: 'Estoque', value: 'Estoque' },
+                { text: 'Alienado', value: 'Alienado' }
+              ]
         }
      },
      computed: {
@@ -107,8 +101,8 @@
          this.pullVehicle();
      },
      components: {
-        VehicleMini:VehicleMini,
-        VehicleImg:VehicleImg
+        //VehicleMini:VehicleMini,
+        imgGroup:imgGroup
      },
      methods: {
          pullVehicle: function () {
@@ -118,7 +112,7 @@
                 }
              }
              axios.get(this.host+'/vehicle/'+this.vehicleId,auth).then(response => {
-                  //console.log('then',response.data.vehicle)
+                  console.log('then',response.data.vehicle)
                   this.vehicle = response.data.vehicle;
                   this.imageList = response.data.vehicle.imageList;
              }).catch(e => {
@@ -132,6 +126,7 @@
                        ,renavan:this.vehicle.renavan
                          ,placa:this.vehicle.placa
                       ,detalhes:this.vehicle.detalhes
+                        ,status:this.vehicle.status
                     };
            axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
               {  headers: {
@@ -146,27 +141,6 @@
                     //console.log('catch',e);
                     this.errors.push(e)
               })
-         },
-         imgSubmit: function () {
-             const formData = new FormData()
-             formData.append('vehicleImage', this.vehicleImage, this.vehicleImage.name)
-             axios.post(this.host+'/img/'+this.vehicleId, formData,
-                {  headers: {
-                      'Content-Type': 'multipart/form-data',
-                      'Authorization': 'Bearer '+this.token
-                   }
-                }).then(response => {
-                      //console.log('then',response)
-                      this.errors.push(response.data)
-                      this.pullVehicle();
-                }).catch(e => {
-                      console.log('catch',e);
-                      this.errors.push(e)
-                })
-         },
-         onFileChanged (event) {
-             this.vehicleImage = event.target.files[0];
-             //console.log(this.vehicleImage);
          },
          confirmRegister(vehicleId){
              this.$router.replace('/vehicle/'+vehicleId)

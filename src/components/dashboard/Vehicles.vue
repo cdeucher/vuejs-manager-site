@@ -32,6 +32,7 @@
    computed: {
       ...mapGetters({
           token:'token',
+          host:'host',
           vehicles:'vehicles'
       })
    },
@@ -47,13 +48,12 @@
    },
    methods: {
          pullVehicles: function () {
-           //console.log('pullVehicles',this.token);
-           axios.post('http://www:3000/vehicle/',{ },
-              {  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+this.token
-                 }
-              }).then(response => {
+           const auth = {  headers: {
+                 'Content-Type': 'application/json',
+                 'Authorization': 'Bearer '+this.token
+              }
+           }
+           axios.get(this.host+'/vehicle/',auth).then(response => {
                     //console.log('then',response.data.vehicles)
                     this.$store.dispatch('pullVehicle', response.data.vehicles);
                     this.vehiclesList = response.data.vehicles;
