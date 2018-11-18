@@ -49,6 +49,9 @@
            password: '123'
          }
      },
+     mounted(){
+       console.log('token:',this.token);
+     },
      computed: {
         ...mapGetters({
             token:'token',

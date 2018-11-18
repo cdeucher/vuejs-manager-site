@@ -7,7 +7,10 @@
          <h5 class="card-title">{{vehicle.modelo}}</h5>
          <p class="card-text">{{vehicle.renavan}}</p>
          <p class="card-text">{{vehicle.descricao}}</p>
-         <a href="#" class="btn btn-primary" v-on:click="go()">Editar</a>
+         <router-link
+                 v-bind:to="`/vehicle/${vehicle._id}/edit`"
+                 class="btn btn-primary"
+                 style="cursor: pointer">Editar</router-link>
          <router-link
                  v-bind:to="`/vehicle/${vehicle._id}`"
                  class="btn btn-primary"
@@ -29,7 +32,7 @@
    },
    mounted(){
      this.loadImg()
-   },   
+   },
    props: ['vehicle'],
    computed: {
       ...mapGetters({

@@ -36,25 +36,25 @@
       })
    },
    created () {
-       console.log('Vehicles - load',this.vehicles.length);
+       //console.log('Vehicles - load',this.vehicles.length);
        if(this.vehicles.length <= 0){
-         console.log('pullVehicles');
+         //console.log('pullVehicles');
          this.pullVehicles();
        }else{
-         console.log('vehiclesList',this.vehicles);
+         //console.log('vehiclesList',this.vehicles);
          this.vehiclesList = this.vehicles;
        }
    },
    methods: {
          pullVehicles: function () {
-           console.log('pullVehicles',this.token);
+           //console.log('pullVehicles',this.token);
            axios.post('http://www:3000/vehicle/',{ },
               {  headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer '+this.token
                  }
               }).then(response => {
-                    console.log('then',response.data.vehicles)
+                    //console.log('then',response.data.vehicles)
                     this.$store.dispatch('pullVehicle', response.data.vehicles);
                     this.vehiclesList = response.data.vehicles;
               }).catch(e => {

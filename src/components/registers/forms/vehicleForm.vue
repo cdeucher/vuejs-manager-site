@@ -25,22 +25,20 @@
                                     v-model="placa">
                 </div>
                 <div class="form-group">
-                  <label for="exampleFormControlFile1">Imagem</label>
-                  <input type="file"
-                        class="form-control-file"
-                           id="vehicleImage"
-                      @change="onFileChanged">
+                    <label>.</label>
+                    <div class="btn btn-primary btn-sm float-left">
+                        <label>Upload</label>
+                        <input type="file"  @change="onFileChanged">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 form-group">
-                <label for="message">Detalhes</label><br>
-                <textarea
-                        id="detalhes"
-                        rows="5"
-                        class="form-control"
-                        v-model="detalhes"></textarea>
+                <div class="form-group">
+                    <label for="message">DETALHES</label><br>
+                    <textarea
+                            id="detalhes"
+                            rows="5"
+                            class="form-control"
+                            v-model="detalhes"></textarea>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -84,7 +82,8 @@
      },
      computed: {
         ...mapGetters({
-            token:'token'
+            token:'token',
+            host:'host'
         })
      },
      methods: {
@@ -92,8 +91,8 @@
            const tmp = JSON.stringify({ modelo:this.modelo, renavan:this.renavan, placa:this.placa, detalhes:this.detalhes });
            const formData = new FormData()
            formData.append('vehicleImage', this.vehicleImage, this.vehicleImage.name)
-           formData.append('data', tmp);
-           axios.post('http://www:3000/vehicle/register', formData,
+           formData.append('vehicle', tmp);
+           axios.post(this.host+'/vehicle/register', formData,
               {  headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer '+this.token
@@ -101,6 +100,7 @@
               }).then(response => {
                     console.log('then',response)
                     this.errors.push(response.data)
+                    this.confirmRegister(response.data.vehicle._id)
               }).catch(e => {
                     console.log('catch',e);
                     this.errors.push(e)
@@ -109,6 +109,9 @@
          onFileChanged (event) {
              this.vehicleImage = event.target.files[0];
              console.log(this.vehicleImage);
+         },
+         confirmRegister(vehicleId){
+             this.$router.replace('/vehicle/'+vehicleId)
          }
     }
  }

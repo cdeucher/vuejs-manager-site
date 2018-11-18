@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Head></Head>
-    <Bar></Bar>
+    <Menu></Menu>
       <transition name="slide" mode="out-in">
           <router-view></router-view>
       </transition>
@@ -10,7 +10,7 @@
 
 <script>
 import Head from './components/Head.vue';
-import Bar from './components/Bar.vue';
+import Menu from './components/Menu.vue';
 export default {
   name: 'app',
   data () {
@@ -22,7 +22,7 @@ export default {
   },
   components: {
      Head: Head,
-     Bar: Bar
+     Menu: Menu
   }
 }
 </script>
@@ -34,15 +34,12 @@ export default {
         padding-right: 30px;
         padding-bottom: 30px;
     }
-
     .slide-enter-active {
         animation: slide-in 200ms ease-out forwards;
     }
-
     .slide-leave-active {
         animation: slide-out 200ms ease-out forwards;
     }
-
     @keyframes slide-in {
         from {
             transform: translateY(-30px);
@@ -53,7 +50,6 @@ export default {
             opacity: 1;
         }
     }
-
     @keyframes slide-out {
         from {
             transform: translateY(0);

@@ -15,6 +15,6 @@
 
 <script>
  export default {
-     name: 'bar'
+     name: 'app-menu'
  }
 </script>

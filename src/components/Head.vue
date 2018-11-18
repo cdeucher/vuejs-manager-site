@@ -35,11 +35,6 @@
                              <i class="ni ni-settings-gear-65"></i>
                              <span class="nav-link-inner--text d-lg-none">Settings</span>
                          </a>
-                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
-                             <a class="dropdown-item" href="#">Action</a>
-                             <div class="dropdown-divider"></div>
-                             <a class="dropdown-item" href="#">Something else here</a>
-                         </div>
                      </li>
                  </ul>
 
