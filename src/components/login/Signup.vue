@@ -55,12 +55,13 @@
      computed: {
         ...mapGetters({
             token:'token',
-            loged:'loged'
+            loged:'loged',
+            host:'host'
         })
      },
      methods: {
          postPost: function () {
-               axios.post('http://www:3000/user/signup',{email:this.email,password:this.password },
+               axios.post(this.host+'/user/signup',{email:this.email,password:this.password },
                   {
                     headers: {
                       'Content-Type': 'application/json',

@@ -44,6 +44,7 @@
             <div class="row">
                <div class="form-group">
                    <imgGroup
+                       target="gallery"
                       :vehicleId="vehicleId"
                       :imageList="imageList"></imgGroup>
                </div>
@@ -59,12 +60,31 @@
             </button>
         </div>
     </div>
-
     <ul v-if="errors && errors.length">
       <li v-for="(error, data) in errors" :key="data">
         {{data}}{{error.message}}
       </li>
     </ul>
+
+    <hr>
+    <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
+        <div class="row">
+           <div class="form-group">
+
+           </div>
+       </div>
+    </div>
+    <hr>
+    <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
+        <div class="row">
+           <div class="form-group">
+               <imgGroup
+                   target="doc"
+                  :vehicleId="vehicleId"
+                  :imageList="imageList"></imgGroup>
+           </div>
+       </div>
+    </div>
 
   </div>
 </template>
@@ -148,3 +168,12 @@
     }
  }
 </script>
+<style scoped>
+ .local-border{
+    /* border:2px #ccc solid; */
+ }
+ .row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+ }
+</style>

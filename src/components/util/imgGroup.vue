@@ -1,8 +1,8 @@
 <template>
    <div>
      <div class="row">
-    
-         <ImgComponent   v-for="(Image, data) in imgList"
+
+         <ImgComponent   v-for="(Image, data) in even(imgList)"
                 v-bind:key="data"
                 v-bind:imgId="Image._id"
                 v-bind:imgPath="Image.path"></ImgComponent>
@@ -42,7 +42,7 @@ export default {
         imgList:[]
      }
   },
-  props: ['vehicleId','imageList'],
+  props: ['vehicleId','imageList','target'],
   computed: {
      ...mapGetters({
          token:'token',
@@ -63,14 +63,19 @@ export default {
      ImgComponent:ImgComponent
   },
   methods: {
+    even: function (imageList) {
+      return imageList.filter((image) =>{
+        return image.target == this.target
+      })
+    },
     pullImg: function () {
         const auth = {  headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer '+this.token
            }
         }
-        axios.get(this.host+'/img/'+this.vehicleId,auth).then(response => {
-             console.log('then',response.data)
+        axios.get(this.host+'/img/'+this.vehicleId+'/'+this.target,auth).then(response => {
+             //console.log('then - pullImg',response.data)
              this.imgList = response.data.vehicle.imageList;
         }).catch(e => {
              this.errors.push(e)
@@ -79,6 +84,7 @@ export default {
     imgSubmit: function () {
         const formData = new FormData()
         formData.append('vehicleImage', this.vehicleImage, this.vehicleImage.name)
+        formData.append('target', this.target)
         axios.post(this.host+'/img/'+this.vehicleId, formData,
            {  headers: {
                  'Content-Type': 'multipart/form-data',
