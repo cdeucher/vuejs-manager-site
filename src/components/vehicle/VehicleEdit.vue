@@ -52,6 +52,7 @@
       </div>
     </div>
     <hr>
+    <!-- Save button -->
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <button
@@ -60,21 +61,25 @@
             </button>
         </div>
     </div>
+    <!-- Logs -->
     <ul v-if="errors && errors.length">
       <li v-for="(error, data) in errors" :key="data">
         {{data}}{{error.message}}
       </li>
     </ul>
-
+    <!-- Owner -->
     <hr>
+    <h5>Owner</h5>
     <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
         <div class="row">
            <div class="form-group">
-
+               <OwnerModal></OwnerModal>
            </div>
        </div>
     </div>
+    <!-- Documentos -->
     <hr>
+    <h5>Documentos</h5>
     <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
         <div class="row">
            <div class="form-group">
@@ -92,8 +97,8 @@
 <script>
  import axios from 'axios';
  import {mapGetters} from 'vuex';
- //import VehicleMini  from './components/VehicleMini.vue';
  import imgGroup   from '../util/imgGroup.vue';
+ import OwnerModal   from '../owner/components/OwnerModal.vue';
 
  export default {
      name: 'vehicleedit',
@@ -121,7 +126,7 @@
          this.pullVehicle();
      },
      components: {
-        //VehicleMini:VehicleMini,
+        OwnerModal:OwnerModal,
         imgGroup:imgGroup
      },
      methods: {
