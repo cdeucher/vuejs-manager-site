@@ -9,7 +9,7 @@
       </li>
     </ul>
     <!-- Modal -->
-    <modal name="owner-modal"   height="auto"  :scrollable="true">
+    <modal name="owner-modal" :adaptive="true" :delay="10" :scrollable="true" height="auto" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5>Owners</h5>
@@ -20,6 +20,7 @@
                 v-for="(owner, data) in ownersList"
                 v-bind:key="data"
                 v-bind:owner="owner"
+                :actionCheck="true"
               ></OwnerMini>
 
             </div>
@@ -43,11 +44,10 @@ export default {
   name: 'OwnerModal',
   data(){
      return {
-       errors: [],
-       ownersList: [],
-       modalShow: false
+       ownersList: []
      }
   },
+  props: ['vehicleId','errors'],
   computed: {
      ...mapGetters({
          token:'token',
@@ -69,37 +69,38 @@ export default {
              }
           }
           axios.get(this.host+'/owner/',auth).then(response => {
-               console.log('owners - then',response.data.owners)
+               //console.log('owners - then',response.data.owners)
                this.$store.dispatch('pullOwners', response.data.owners);
                this.ownersList = response.data.owners;
           }).catch(e => {
                this.errors.push(e)
           })
       },
+      actionCheck: function (ownerMini) {
+        const tmp = { owner: ownerMini._id };
+        axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
+           {  headers: {
+                 'Content-Type': 'application/json',
+                 'Authorization': 'Bearer '+this.token
+              }
+           }).then(response => {
+                 this.errors.push(response.data)
+                 this.confirmUpdate()
+           }).catch(e => {
+                 this.errors.push(e)
+           })
+      },
+      confirmUpdate(){
+          this.$router.replace('/vehicle/'+this.vehicleId)
+      },
       openModal: function () {
-          console.log('this.owners.length',this.owners.length)
           if(this.owners.length <= 0){
                this.pullOwner();
           }else{
                this.ownersList = this.owners;
           }
-
           //open - modal
-          this.$modal.show('owner-modal',{
-          buttons: [
-              {
-                title: 'Deal with it',
-                handler: () => { alert('Woot!') }
-              },
-              {
-                title: '',       // Button title
-                default: true,    // Will be triggered by default if 'Enter' pressed.
-                handler: () => {} // Button click handler
-              },
-              {
-                title: 'Close'
-              }
-          ]});
+          this.$modal.show('owner-modal');
       },
       closeModal () {
           this.$modal.hide('owner-modal');
@@ -111,25 +112,5 @@ export default {
  .card{
     float: left;
     width: 14rem;
- }
- .modal-dialog{
-    max-width: 1200px;
- }
- .bounce-enter-active {
-   animation: bounce-in .5s;
- }
- .bounce-leave-active {
-   animation: bounce-in .5s reverse;
- }
- @keyframes bounce-in {
-   0% {
-     transform: scale(0);
-   }
-   50% {
-     transform: scale(1.5);
-   }
-   100% {
-     transform: scale(1);
-   }
  }
 </style>

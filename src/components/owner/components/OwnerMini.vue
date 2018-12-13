@@ -4,10 +4,7 @@
      <div class="card">
        <div class="card-body">
          <h5 class="card-title">{{owner.nome}}</h5>
-         <router-link
-                 v-bind:to="`/owner/${owner._id}/edit`"
-                 class="btn btn-primary"
-                 style="cursor: pointer">Check</router-link>
+         <button v-if="actionCheck" @click="callParent(owner)" type="button" class="btn btn-primary">Check</button>
          <router-link
                  v-bind:to="`/owner/${owner._id}`"
                  class="btn btn-primary"
@@ -27,7 +24,7 @@
 
       }
    },
-   props: ['owner'],
+   props: ['owner','actionCheck'],
    computed: {
       ...mapGetters({
           token:'token',
@@ -35,6 +32,17 @@
       })
    },
    methods: {
+      callParent: function(me){
+         try{
+            this.$parent.$parent.actionCheck(me)
+         } catch(e){
+             try{
+                this.$parent.actionCheck(me)
+             } catch(e){
+                console.log('ownerMini - callParent',e)
+             }
+         }
+      }
    }
  }
 </script>
@@ -42,6 +50,6 @@
 <style scoped>
  .card{
     float: left;
-    
+
  }
 </style>

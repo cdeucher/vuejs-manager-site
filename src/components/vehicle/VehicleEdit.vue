@@ -72,8 +72,17 @@
     <h5>Owner</h5>
     <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
         <div class="row">
+          <OwnerModal
+               :vehicleId="vehicleId"
+               :errors="errors"
+          ></OwnerModal>
+        </div>
+        <div class="row">
            <div class="form-group">
-               <OwnerModal></OwnerModal>
+               <OwnerMini
+                    v-if="vehicle.owner"
+                    v-bind:owner="vehicle.owner"
+               ></OwnerMini>
            </div>
        </div>
     </div>
@@ -95,10 +104,11 @@
 </template>
 
 <script>
- import axios from 'axios';
+ import axios        from 'axios';
  import {mapGetters} from 'vuex';
- import imgGroup   from '../util/imgGroup.vue';
+ import imgGroup     from '../util/imgGroup.vue';
  import OwnerModal   from '../owner/components/OwnerModal.vue';
+ import OwnerMini    from '../owner/components/OwnerMini.vue';
 
  export default {
      name: 'vehicleedit',
@@ -126,8 +136,9 @@
          this.pullVehicle();
      },
      components: {
-        OwnerModal:OwnerModal,
-        imgGroup:imgGroup
+       OwnerModal: OwnerModal,
+         imgGroup: imgGroup,
+        OwnerMini: OwnerMini
      },
      methods: {
          pullVehicle: function () {
@@ -180,5 +191,9 @@
  .row {
     margin-right: 0px !important;
     margin-left: 0px !important;
+ }
+ .card{
+    float: left;
+    width: 14rem;
  }
 </style>
