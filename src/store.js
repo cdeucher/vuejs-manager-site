@@ -11,7 +11,15 @@ export const store = new Vuex.Store({
        token: '',
        host: 'http://www:3000',//'http://ec2-52-90-245-155.compute-1.amazonaws.com:3000',//
        vehicles: [],
-       owners: []
+       owners: [],
+       options: [
+                 { text: 'Proposta', value: 'Proposta', activated:false },
+                 { text: 'Vendido', value: 'Vendido', activated:false },
+                 { text: 'Estoque', value: 'Estoque', activated:false },
+                 { text: 'Alienado', value: 'Alienado', activated:false },
+                 { text: 'Desativado', value: 'Desativado', activated:false }
+               ],
+       filter : undefined
     },
     getters:{
         loged(state){
@@ -28,6 +36,12 @@ export const store = new Vuex.Store({
         },
         owners(state){
            return state.owners;
+        },
+        options(state){
+           return state.options;
+        },
+        filter(state){
+           return state.filter;
         }
     },
     mutations: {
@@ -50,6 +64,15 @@ export const store = new Vuex.Store({
             localStorage.removeItem('user-token')
             localStorage.removeItem('user-loged')
             router.replace('/login')
+        },
+        updateOption(state, option) {
+            //console.log('updateOption',option);
+            for(let i in state.options){
+                state.options[i].activated = (option.text == state.options[i].text) ? (option.activated == true) ? false : true : false
+            }
+        },
+        updateFilter(state, filter) {
+            state.filter = filter
         }
     },
     actions: {
@@ -94,6 +117,12 @@ export const store = new Vuex.Store({
         logout({commit}){
            //dispatch('setLogoutTimer')
            commit('clearAuthData')
+        },
+        updateOption({commit},option){
+            commit('updateOption', option)
+        },
+        updateFilter({commit},filter){
+            commit('updateFilter', filter)
         }
     }
 });

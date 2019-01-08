@@ -51,7 +51,7 @@
               }
            }
            axios.get(this.host+'/owner/',auth).then(response => {
-                console.log('then',response.data.owners)
+                //console.log('then',response.data.owners)
                 this.$store.dispatch('pullOwners', response.data.owners);
                 this.ownersList = response.data.owners;
            }).catch(e => {

@@ -1,7 +1,14 @@
 <template>
    <div>
+       <button v-for="(button, index) in options"
+               v-bind:key="button.text"
+               @click="filterOption(button,index)"
+               v-bind:class= "[button.activated == true ? 'btn-primary' : 'btn-default']"
+               type="button" class="btn">{{button.text}}</button>
+       <hr>
+
       <Vehicle
-        v-for="(vehicle, data) in vehiclesList"
+        v-for="(vehicle, data) in even(vehiclesList)"
         v-bind:key="data"
         v-bind:vehicle="vehicle"
       ></Vehicle>
@@ -23,7 +30,8 @@
    data(){
       return {
          errors: [],
-         vehiclesList: []
+         vehiclesList: [],
+         optionsList: []
       }
    },
    components: {
@@ -33,7 +41,8 @@
       ...mapGetters({
           token:'token',
           host:'host',
-          vehicles:'vehicles'
+          vehicles:'vehicles',
+          options:'options'
       })
    },
    created () {
@@ -60,6 +69,20 @@
               }).catch(e => {
                     this.errors.push(e)
               })
+       },
+       even: function (vehiclesList) {
+         if(this.filter != undefined){
+             return vehiclesList.filter((vehicle) =>{
+               return vehicle.status == this.filter
+             })
+         }else{
+             return this.vehiclesList
+         }
+       },
+       filterOption: function (option) {
+          //console.log('updateOption',option)
+          this.filter = (option.activated == true) ? undefined : option.text
+          this.$store.dispatch('updateOption', option);
        }
   }
  }

@@ -111,7 +111,7 @@
               }
            }
            axios.get(this.host+'/owner/'+this.ownerId,auth).then(response => {
-                console.log('then',response.data.owner)
+                //console.log('then',response.data.owner)
                 this.owner = response.data.owner;
            }).catch(e => {
                 this.errors.push(e)

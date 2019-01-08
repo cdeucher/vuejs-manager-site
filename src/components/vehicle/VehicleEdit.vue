@@ -51,27 +51,11 @@
           </div>
       </div>
     </div>
-    <hr>
-    <!-- Save button -->
-    <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <button
-                    class="btn btn-primary"
-                    @click.prevent="submitted">Atualizar
-            </button>
-        </div>
-    </div>
-    <!-- Logs -->
-    <ul v-if="errors && errors.length">
-      <li v-for="(error, data) in errors" :key="data">
-        {{data}}{{error.message}}
-      </li>
-    </ul>
     <!-- Owner -->
     <hr>
     <h5>Owner</h5>
     <div class="local-border col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-3">
-        <div class="row">
+        <div v-if="vehicle.status=='Proposta'" class="row">
           <OwnerModal
                :vehicleId="vehicleId"
                :errors="errors"
@@ -99,6 +83,22 @@
            </div>
        </div>
     </div>
+    <!-- Save button -->
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <button
+                    class="btn btn-primary"
+                    @click.prevent="submitted">Atualizar
+            </button>
+        </div>
+    </div>
+    <!-- Logs -->
+    <ul v-if="errors && errors.length">
+      <li v-for="(error, data) in errors" :key="data">
+        {{data}}{{error.message}}
+      </li>
+    </ul>
 
   </div>
 </template>
@@ -117,19 +117,14 @@
            errors: [],
            vehicle: {},
            vehicleId: this.$route.params.id,
-           imageList: [],
-           options: [
-                { text: 'Proposta', value: 'Proposta' },
-                { text: 'Vendido', value: 'Vendido' },
-                { text: 'Estoque', value: 'Estoque' },
-                { text: 'Alienado', value: 'Alienado' }
-              ]
+           imageList: []
         }
      },
      computed: {
         ...mapGetters({
             token:'token',
-            host:'host'
+            host:'host',
+            options:'options'
         })
      },
      created () {
@@ -148,7 +143,7 @@
                 }
              }
              axios.get(this.host+'/vehicle/'+this.vehicleId,auth).then(response => {
-                  console.log('then',response.data.vehicle)
+                  //console.log('then',response.data.vehicle)
                   this.vehicle = response.data.vehicle;
                   this.imageList = response.data.vehicle.imageList;
              }).catch(e => {
@@ -172,14 +167,28 @@
               }).then(response => {
                     //console.log('then',response)
                     this.errors.push(response.data)
-                    this.confirmRegister(this.vehicleId)
+                    this.confirmUpdate(this.vehicleId)
               }).catch(e => {
                     //console.log('catch',e);
                     this.errors.push(e)
               })
          },
-         confirmRegister(vehicleId){
+         confirmUpdate(vehicleId){
              this.$router.replace('/vehicle/'+vehicleId)
+         },
+         saveOwner: function (ownerMini) {
+           const tmp = { owner: ownerMini._id };
+           axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
+              {  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+this.token
+                 }
+              }).then(response => {
+                    this.errors.push(response.data)
+                    this.pullVehicle();
+              }).catch(e => {
+                    this.errors.push(e)
+              })
          }
     }
  }

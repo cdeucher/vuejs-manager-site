@@ -1,12 +1,11 @@
 <template>
-   <div>
+   <div class="card-top">
 
      <div class="card">
        <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
        <div class="card-body">
          <h5 class="card-title">{{vehicle.modelo}}</h5>
-         <p class="card-text">{{vehicle.renavan}}</p>
-         <p class="card-text">{{vehicle.descricao}}</p>
+         <p class="card-text">{{vehicle.status}}</p>         
          <router-link
                  v-bind:to="`/vehicle/${vehicle._id}/edit`"
                  class="btn btn-primary"
@@ -42,8 +41,12 @@
    },
    methods: {
        loadImg: function () {
-          if(this.vehicle.imageList[0])
-           this.imgHost = this.host+'/'+this.vehicle.imageList[0].path;
+          for(let i in this.vehicle.imageList){
+                if(this.vehicle.imageList[i].target != "doc"){
+                   this.imgHost = this.host+'/'+this.vehicle.imageList[i].path;
+                   break;
+                }
+          }
        }
    }
  }
@@ -53,5 +56,11 @@
  .card{
     float: left;
     width: 14rem;
+ }
+ .card-img-top{
+    max-height: 140px;
+ }
+ *, *::before, *::after{
+    box-sizing: content-box;
  }
 </style>

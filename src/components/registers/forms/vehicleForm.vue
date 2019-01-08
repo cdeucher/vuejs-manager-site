@@ -79,19 +79,14 @@
            renavan:'',
            placa:'',
            detalhes:'',
-           status: 'Proposta',
-           options: [
-                { text: 'Proposta', value: 'Proposta' },
-                { text: 'Vendido', value: 'Vendido' },
-                { text: 'Estoque', value: 'Estoque' },
-                { text: 'Alienado', value: 'Alienado' }
-              ]
+           status: 'Proposta'
         }
      },
      computed: {
         ...mapGetters({
             token:'token',
-            host:'host'
+            host:'host',
+            options:'options'
         })
      },
      methods: {

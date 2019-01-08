@@ -4,6 +4,8 @@
      <div class="card">
        <div class="card-body">
          <h5 class="card-title">{{owner.nome}}</h5>
+         <p class="card-text">{{owner.endereco}}</p>
+         <p class="card-text">{{owner.whats}}</p>
          <router-link
                  v-bind:to="`/owner/${ownerId}/edit`"
                  class="btn btn-primary"
@@ -53,7 +55,7 @@ export default {
              }
           }
           axios.get(this.host+'/owner/'+this.ownerId,auth).then(response => {
-               console.log('then',response.data.owner)
+               //console.log('then',response.data.owner)
                this.owner = response.data.owner;
           }).catch(e => {
                this.errors.push(e)

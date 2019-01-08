@@ -1,33 +1,56 @@
 <template>
    <div>
 
-     <div class="card">
-       <!-- img class="card-img-top" src="/assets/custom/vehicles/vehicle-not-found.svg" alt="Card image cap" -->
-       <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
-       <div class="card-body">
-         <h5 class="card-title">{{vehicle.modelo}}</h5>
-         <p class="card-text">{{vehicle.renavan}}</p>
-         <p class="card-text">{{vehicle.descricao}}</p>
-         <router-link
-                 v-bind:to="`/vehicle/${vehicleId}/edit`"
-                 class="btn btn-primary"
-                 style="cursor: pointer">Editar</router-link>
-       </div>
-     </div>
+     <form>
+      <div class="row">
+       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+         <div class="card">
+           <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
+           <div class="card-body">
+             <h5 class="card-title">{{vehicle.modelo}}</h5>
+             <p class="card-text">{{vehicle.renavan}}</p>
+             <p class="card-text">{{vehicle.descricao}}</p>
+             <router-link
+                     v-bind:to="`/vehicle/${vehicleId}/edit`"
+                     class="btn btn-primary"
+                     style="cursor: pointer">Editar</router-link>
+           </div>
+         </div>
+         <div class="card">
+           <OwnerMini
+                v-if="vehicle.owner"
+                v-bind:owner="vehicle.owner"
+           ></OwnerMini>
+         </div>
+        </div>
+      </div>
+      <!-- Save button -->
+      <hr>
+      <div class="row">
+         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <button
+                class="btn btn-success"
+                @click.prevent="submitted">Vender
+            </button>
+         </div>
+      </div>
+     </form>
 
-     <router-view></router-view>
-
-     <ul v-if="errors && errors.length">
-       <li v-for="(error, data) in errors" :key="data">
+      <!-- Logs -->
+      <ul v-if="errors && errors.length">
+        <li v-for="(error, data) in errors" :key="data">
          {{data}}{{error.message}}
-       </li>
-     </ul>
+        </li>
+      </ul>
+
    </div>
 </template>
 
 <script>
 import axios from 'axios';
 import {mapGetters} from 'vuex';
+
+import OwnerMini    from '../owner/components/OwnerMini.vue';
 
 export default {
   data(){
@@ -38,8 +61,8 @@ export default {
         imgHost : '/assets/custom/vehicles/vehicle-not-found.svg'
      }
   },
-  mounted(){
-
+  components: {
+     OwnerMini: OwnerMini
   },
   created () {
       this.pullVehicle();
@@ -65,9 +88,36 @@ export default {
                  this.errors.push(e)
            })
       },
+      submitted: function () {
+        //console.log(this.vehicle)
+        const tmp = {
+                      modelo:this.vehicle.modelo
+                    ,renavan:this.vehicle.renavan
+                      ,placa:this.vehicle.placa
+                   ,detalhes:this.vehicle.detalhes
+                     ,status:this.vehicle.status
+                 };
+        axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
+           {  headers: {
+                 'Content-Type': 'application/json',
+                 'Authorization': 'Bearer '+this.token
+              }
+           }).then(response => {
+                 //console.log('then',response)
+                 this.errors.push(response.data)
+                 this.confirmUpdate(this.vehicleId)
+           }).catch(e => {
+                 //console.log('catch',e);
+                 this.errors.push(e)
+           })
+      },
       loadImg: function () {
-         if(this.vehicle.imageList[0])
-          this.imgHost = this.host+'/'+this.vehicle.imageList[0].path;
+         for(let i in this.vehicle.imageList){
+               if(this.vehicle.imageList[i].target != "doc"){
+                  this.imgHost = this.host+'/'+this.vehicle.imageList[i].path;
+                  break;
+               }
+         }
       }
  }
 }

@@ -85,13 +85,15 @@ export default {
               }
            }).then(response => {
                  this.errors.push(response.data)
-                 this.confirmUpdate()
+                try{
+                  this.$parent.saveOwner(ownerMini)
+                  this.closeModal()
+                }catch(e){
+                  console.log('OwnerModal - actionCheck', e)
+                }
            }).catch(e => {
                  this.errors.push(e)
            })
-      },
-      confirmUpdate(){
-          this.$router.replace('/vehicle/'+this.vehicleId)
       },
       openModal: function () {
           if(this.owners.length <= 0){
@@ -102,7 +104,7 @@ export default {
           //open - modal
           this.$modal.show('owner-modal');
       },
-      closeModal () {
+      closeModal: function () {
           this.$modal.hide('owner-modal');
       }
   }
