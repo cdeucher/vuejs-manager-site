@@ -1,78 +1,76 @@
 <template>
   <div>
 
-    <form>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <h1>Owner</h1>
-                <hr>
-                <div class="form-group">
-                    <label for="nome">NOME</label>
-                    <input type="text" id="nome"
-                                    class="form-control"
-                                  v-model="owner.nome">
-                </div>
-                <div class="form-group">
-                    <label for="cpf">CPF</label>
-                    <input type="text"   id="cpf"
-                                      class="form-control"
-                                    v-model="owner.cpf">
-                </div>
-                <div class="form-group">
-                    <label for="rg">RG</label>
-                    <input type="text" id="rg"
-                                    class="form-control"
-                                    v-model="owner.rg">
-                </div>
-                <div class="form-group">
-                    <label for="endereco">ENDEREÇO</label>
-                    <input type="text" id="endereco"
-                                    class="form-control"
-                                    v-model="owner.endereco">
-                </div>
-                <div class="form-group">
-                    <label for="email">EMAIL</label>
-                    <input type="text" id="email"
-                                    class="form-control"
-                                    v-model="owner.email">
-                </div>
-                <div class="form-group">
-                    <label for="telefone">TELEFONE</label>
-                    <input type="text" id="telefone"
-                                    class="form-control"
-                                    v-model="owner.telefone">
-                </div>
-                <div class="form-group">
-                    <label for="whats">WHATS</label>
-                    <input type="text" id="whats"
-                                    class="form-control"
-                                    v-model="owner.whats">
-                </div>
-                <div class="form-group">
-                    <label for="message">DETALHES</label><br>
-                    <textarea
-                            id="detalhes"
-                            rows="5"
-                            class="form-control"
-                            v-model="owner.detalhes"></textarea>
-                </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <h1>Owner</h1>
+            <hr>
+            <div class="form-group">
+                <label for="nome">NOME</label>
+                <input type="text" id="nome"
+                                class="form-control"
+                              v-model="owner.nome">
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text"   id="cpf"
+                                  class="form-control"
+                                v-model="owner.cpf">
+            </div>
+            <div class="form-group">
+                <label for="rg">RG</label>
+                <input type="text" id="rg"
+                                class="form-control"
+                                v-model="owner.rg">
+            </div>
+            <div class="form-group">
+                <label for="endereco">ENDEREÇO</label>
+                <input type="text" id="endereco"
+                                class="form-control"
+                                v-model="owner.endereco">
+            </div>
+            <div class="form-group">
+                <label for="email">EMAIL</label>
+                <input type="text" id="email"
+                                class="form-control"
+                                v-model="owner.email">
+            </div>
+            <div class="form-group">
+                <label for="telefone">TELEFONE</label>
+                <input type="text" id="telefone"
+                                class="form-control"
+                                v-model="owner.telefone">
+            </div>
+            <div class="form-group">
+                <label for="whats">WHATS</label>
+                <input type="text" id="whats"
+                                class="form-control"
+                                v-model="owner.whats">
+            </div>
+            <div class="form-group">
+                <label for="message">DETALHES</label><br>
+                <textarea
+                        id="detalhes"
+                        rows="5"
+                        class="form-control"
+                        v-model="owner.detalhes"></textarea>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-            </div>
         </div>
-        <hr>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <button
-                        class="btn btn-primary"
-                        @click.prevent="submitted">Atualizar
-                </button>
-            </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <button
+                    class="btn btn-primary"
+                    @click.prevent="submitted">Atualizar
+            </button>
         </div>
-    </form>
+    </div>
     <ul v-if="errors && errors.length">
       <li v-for="(error, data) in errors" :key="data">
         {{data}}{{error.message}}

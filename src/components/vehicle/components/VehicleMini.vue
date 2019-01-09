@@ -1,47 +1,67 @@
 <template>
-   <div>
+   <div class="card-top">
 
      <div class="card">
-       <img class="card-img-top" v-bind:src="`${host}/${imgHost}`" alt="Card image cap">
+       <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
        <div class="card-body">
          <h5 class="card-title">{{vehicle.modelo}}</h5>
-         <p class="card-text">{{vehicle.renavan}}</p>
-         <p class="card-text">{{vehicle.descricao}}</p>
+         <p class="card-text">{{vehicle.status}}</p>
          <router-link
-                 v-bind:to="`/vehicle/${vehicleId}`"
+                 v-bind:to="`/vehicle/${vehicle._id}/edit`"
+                 class="btn btn-primary"
+                 style="cursor: pointer">Editar</router-link>
+         <router-link
+                 v-bind:to="`/vehicle/${vehicle._id}`"
                  class="btn btn-primary"
                  style="cursor: pointer">Ver</router-link>
        </div>
      </div>
+
    </div>
 </template>
 
 <script>
-export default {
-  data(){
-     return {
-        imgHost : 'uploads/vehicle-not-found.svg'
-     }
-  },
-  props: ['vehicle','host','vehicleId','vehicleImage'],
-  watch: {
-    vehicleImage: function () {
-      this.imgHost = this.vehicleImage
-    }
-  },
-  created () {
+ import {mapGetters} from 'vuex';
 
-  },
-  computed: {
-
-  },
-  methods: {
-  }
-}
+ export default {
+   data(){
+      return {
+          imgHost : '/assets/custom/vehicles/vehicle-not-found.svg'
+      }
+   },
+   mounted(){
+     this.loadImg()
+   },
+   props: ['vehicle'],
+   computed: {
+      ...mapGetters({
+          token:'token',
+          host:'host'
+      })
+   },
+   methods: {
+       loadImg: function () {
+          //console.log('loadImg',this.vehicle)
+          for(let i in this.vehicle.imageList){
+                if(this.vehicle.imageList[i].target != "doc"){
+                   this.imgHost = this.host+'/'+this.vehicle.imageList[i].path;
+                   break;
+                }
+          }
+       }
+   }
+ }
 </script>
+
 <style scoped>
  .card{
     float: left;
-    width: 14rem;
+    width: 265px;
+ }
+ .card-img-top{
+    max-height: 140px;
+ }
+ *, *::before, *::after{
+    box-sizing: content-box;
  }
 </style>

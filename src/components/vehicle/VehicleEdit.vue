@@ -29,6 +29,12 @@
                                 v-model="vehicle.value">
             </div>
             <div class="form-group">
+                <label for="placa">VALOR VENDA</label>
+                <input type="text" id="value"
+                                class="form-control"
+                                v-model="vehicle.sellValue">
+            </div>
+            <div class="form-group">
                 <label for="message">DETALHES</label><br>
                 <textarea
                         id="detalhes"
@@ -94,6 +100,10 @@
     <hr>
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <button
+                    class="btn btn-primary"
+                    @click.prevent="view">Ver
+            </button>
             <button
                     class="btn btn-primary"
                     @click.prevent="submitted">Atualizar
@@ -165,6 +175,7 @@
                       ,detalhes:this.vehicle.detalhes
                         ,status:this.vehicle.status
                          ,value:this.vehicle.value
+                     ,sellValue:this.vehicle.sellValue
                          ,owner:this.vehicle.owner._id
                     };
            //console.log('submitted',tmp)
@@ -184,6 +195,9 @@
          },
          confirmUpdate(vehicleId){
              this.$router.replace('/vehicle/'+vehicleId)
+         },
+         view(){
+             this.$router.replace('/vehicle/'+this.vehicleId)
          },
          saveOwner_deprecated: function (ownerMini) {
            const tmp = { owner: ownerMini._id };

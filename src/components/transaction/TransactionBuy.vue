@@ -36,9 +36,9 @@
              </div>
              <div class="form-group">
                  <label for="placa">VALOR</label>
-                 <input type="text" id="value"
-                                 class="form-control"
-                                 v-model="value">
+                 <input type="number"
+                        class="form-control"
+                        v-model="value">
              </div>
              <div class="form-group">
                  <label for="message">DETALHES</label><br>
@@ -53,11 +53,21 @@
       <div class="row">
          <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <button
+                class="btn btn-primary"
+                @click.prevent="view">Ver
+            </button>
+            <button
                 class="btn btn-success"
                 @click.prevent="buy">Buy
             </button>
          </div>
       </div>
+      <!-- success -->
+      <ul v-if="success && success.length">
+        <li v-for="(suc, data) in success" :key="data">
+         {{data}}{{suc.message}}
+        </li>
+      </ul>
       <!-- Logs -->
       <ul v-if="errors && errors.length">
         <li v-for="(error, data) in errors" :key="data">
@@ -71,7 +81,7 @@
 <script>
 import axios from 'axios';
 import {mapGetters} from 'vuex';
-import imgGroup     from '../util/imgGroup.vue';
+
 import OwnerModal   from '../owner/components/OwnerModal.vue';
 import OwnerMini    from '../owner/components/OwnerMini.vue';
 
@@ -79,6 +89,7 @@ export default {
   data(){
      return {
         errors: [],
+        success: [],
         vehicle: {owner:{}},
         vehicleId: this.$route.params.vehicleId,
         owner: '',
@@ -88,7 +99,6 @@ export default {
   },
   components: {
     OwnerModal: OwnerModal,
-      imgGroup: imgGroup,
      OwnerMini: OwnerMini
   },
   created () {
@@ -108,16 +118,23 @@ export default {
                }
             }
             axios.get(this.host+'/vehicle/'+this.vehicleId,auth).then(response => {
-                 console.log('then',response.data.vehicle)
+                 //console.log('then',response.data.vehicle)
                  this.vehicle = response.data.vehicle;
             }).catch(e => {
                  this.errors.push(e)
             })
       },
       buy(){
-          this.createProposal()
-          this.createBuy()
-          this.updateVehicle()
+           var tmp = confirm("Confirmar Compra ?")
+           if(tmp){
+              this.fieldValidation()
+              console.log('fieldValidation',this.errors)
+              if(this.errors.length == 0) this.createProposal()
+              if(this.errors.length == 0) this.createBuy()
+              if(this.errors.length == 0) this.updateVehicle()
+           }else{
+        		 console.log('Cancel Buy')
+           }
       },
       createProposal(){
           var transaction = {
@@ -157,7 +174,7 @@ export default {
               }
            }).then(response => {
                  //console.log('then',response)
-                 this.errors.push(response.data)
+                 this.success.push(response.data)
                  this.confirmUpdate(this.vehicleId)
            }).catch(e => {
                  //console.log('catch',e);
@@ -175,17 +192,27 @@ export default {
                 }
              }).then(response => {
                  console.log('pushOperation',response)
-                 this.errors.push(response.data)
+                 this.success.push(response.data)
              }).catch(e => {
                  this.errors.push(e)
              })
       },
+      view(){
+          this.$router.replace('/vehicle/'+this.vehicleId)
+      },
+      fieldValidation(){
+          this.errors = []
+          if(this.owner  == '' |
+             this.value  == 0 |
+             this.detail == ''){
+                this.errors.push({'message':'Field Validation Error'})
+          }
+      }
  }
 }
 </script>
 
 <style>
-
   .row {
      margin-right: 0px !important;
      margin-left: 0px !important;

@@ -1,6 +1,7 @@
 <template>
    <div>
 
+   <div class="row">
      <div class="card">
        <div class="card-body">
          <h5 class="card-title">{{owner.nome}}</h5>
@@ -12,7 +13,13 @@
                  style="cursor: pointer">Editar</router-link>
        </div>
      </div>
-
+   </div>
+   <div class="row">
+     <VehicleMini
+          v-for="(vehicle, data) in vehicles"
+          v-bind:vehicle="vehicle"
+     ></VehicleMini>
+   </div>
      <router-view></router-view>
 
      <ul v-if="errors && errors.length">
@@ -26,20 +33,23 @@
 <script>
 import axios from 'axios';
 import {mapGetters} from 'vuex';
+ import VehicleMini    from '../vehicle/components/VehicleMini.vue';
 
 export default {
   data(){
      return {
         errors: [],
         owner: {},
+        vehicles: [],
         ownerId: this.$route.params.id
      }
   },
-  mounted(){
-
+  components: {
+     VehicleMini: VehicleMini
   },
   created () {
-      this.pullOwner();
+      this.pullOwner()
+      this.pullVehicles()
   },
   computed: {
      ...mapGetters({
@@ -60,7 +70,20 @@ export default {
           }).catch(e => {
                this.errors.push(e)
           })
-      }
+      },
+      pullVehicles: function () {
+          const auth = {  headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+this.token
+             }
+          }
+          axios.get(this.host+'/vehicle/owner/'+this.ownerId,auth).then(response => {
+               //console.log('then',response.data.vehicles)
+               this.vehicles = response.data.vehicles;
+          }).catch(e => {
+               this.errors.push(e)
+          })
+      },
  }
 }
 </script>

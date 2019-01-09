@@ -7,11 +7,11 @@
                type="button" class="btn">{{button.text}}</button>
        <hr>
 
-      <Vehicle
+      <VehicleMini
         v-for="(vehicle, data) in even(vehiclesList)"
         v-bind:key="data"
         v-bind:vehicle="vehicle"
-      ></Vehicle>
+      ></VehicleMini>
 
       <ul v-if="errors && errors.length">
         <li v-for="(error, data) in errors" :key="data">
@@ -24,7 +24,7 @@
 <script>
  import axios from 'axios';
  import {mapGetters} from 'vuex';
- import Vehicle from './forms/Vehicle.vue';
+ import VehicleMini    from '../vehicle/components/VehicleMini.vue';
 
  export default {
    data(){
@@ -35,7 +35,7 @@
       }
    },
    components: {
-      Vehicle: Vehicle
+      VehicleMini: VehicleMini
    },
    computed: {
       ...mapGetters({

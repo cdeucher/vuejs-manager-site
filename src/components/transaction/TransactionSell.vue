@@ -36,9 +36,9 @@
              </div>
              <div class="form-group">
                  <label for="placa">VALOR</label>
-                 <input type="text" id="value"
-                                 class="form-control"
-                                 v-model="value">
+                 <input type="number"
+                        class="form-control"
+                        v-model="value">
              </div>
              <div class="form-group">
                  <label for="message">DETALHES</label><br>
@@ -71,7 +71,7 @@
 <script>
 import axios from 'axios';
 import {mapGetters} from 'vuex';
-import imgGroup     from '../util/imgGroup.vue';
+
 import OwnerModal   from '../owner/components/OwnerModal.vue';
 import OwnerMini    from '../owner/components/OwnerMini.vue';
 
@@ -88,7 +88,6 @@ export default {
   },
   components: {
     OwnerModal: OwnerModal,
-      imgGroup: imgGroup,
      OwnerMini: OwnerMini
   },
   created () {
@@ -108,15 +107,21 @@ export default {
                }
             }
             axios.get(this.host+'/vehicle/'+this.vehicleId,auth).then(response => {
-                 console.log('then',response.data.vehicle)
+                 //console.log('then',response.data.vehicle)
                  this.vehicle = response.data.vehicle;
             }).catch(e => {
                  this.errors.push(e)
             })
       },
       sell(){
-          this.createSell()
-          this.updateVehicle()
+          var tmp = confirm("Confirmar Venda ?")
+          if(tmp){
+              this.fieldValidation()
+              if(this.errors.length == 0) this.createSell()
+              if(this.errors.length == 0) this.updateVehicle()
+          }else{
+              console.log('Cancel Buy')
+          }
       },
       createSell(){
           var transaction = {
@@ -166,6 +171,14 @@ export default {
                  this.errors.push(e)
              })
       },
+      fieldValidation(){
+          this.errors = []
+          if(this.owner  == '' |
+             this.value  == 0 |
+             this.detail == ''){
+                this.errors.push({'message':'Field Validation Error'})
+          }
+      }
  }
 }
 </script>
