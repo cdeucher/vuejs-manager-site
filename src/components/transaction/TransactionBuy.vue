@@ -128,12 +128,13 @@ export default {
            var tmp = confirm("Confirmar Compra ?")
            if(tmp){
               this.fieldValidation()
-              console.log('fieldValidation',this.errors)
-              if(this.errors.length == 0) this.createProposal()
-              if(this.errors.length == 0) this.createBuy()
-              if(this.errors.length == 0) this.updateVehicle()
+              //console.log('fieldValidation',this.errors)
+              if(this.errors.length == 0)
+                 this.createProposal()
+              //if(this.errors.length == 0) this.createBuy()
+              //if(this.errors.length == 0) this.updateVehicle()
            }else{
-        		 console.log('Cancel Buy')
+             console.log('Cancel Buy')
            }
       },
       createProposal(){
@@ -147,7 +148,19 @@ export default {
                 "include": true
               }
           }
-          this.pushOperation(transaction)
+          axios.post(this.host+'/transaction/', transaction,
+             {  headers: {
+                   'Content-Type': 'application/json',
+                   'Authorization': 'Bearer '+this.token
+                }
+             }).then(response => {
+                 //console.log('pushOperation',response)
+                 this.success.push(response.data)
+                 if(this.errors.length == 0)
+                   this.createBuy()
+             }).catch(e => {
+                 this.errors.push(e)
+             })
       },
       createBuy(){
           var transaction = {
@@ -160,7 +173,19 @@ export default {
                 "include": true
               }
           }
-          this.pushOperation(transaction)
+          axios.post(this.host+'/transaction/', transaction,
+             {  headers: {
+                   'Content-Type': 'application/json',
+                   'Authorization': 'Bearer '+this.token
+                }
+             }).then(response => {
+                 //console.log('pushOperation',response)
+                 this.success.push(response.data)
+                 if(this.errors.length == 0)
+                   this.updateVehicle()
+             }).catch(e => {
+                 this.errors.push(e)
+             })
       },
       updateVehicle() {
         const tmp = { value:this.value
@@ -183,19 +208,6 @@ export default {
       },
       confirmUpdate(vehicleId){
           this.$router.replace('/vehicle/'+vehicleId)
-      },
-      pushOperation: function (transaction) {
-          axios.post(this.host+'/transaction/', transaction,
-             {  headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': 'Bearer '+this.token
-                }
-             }).then(response => {
-                 console.log('pushOperation',response)
-                 this.success.push(response.data)
-             }).catch(e => {
-                 this.errors.push(e)
-             })
       },
       view(){
           this.$router.replace('/vehicle/'+this.vehicleId)

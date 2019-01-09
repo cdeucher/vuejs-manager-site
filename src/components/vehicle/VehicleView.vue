@@ -15,7 +15,9 @@
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <div class="row">
                <div class="form-group">
-                   <TransactionMini v-for="(transaction, data) in transactions"
+                   <TransactionMini
+                        v-for="(transaction, data) in transactions"
+                        v-bind:key="data" 
                         v-bind:index="data"
                         v-bind:transaction="transaction"
                    ></TransactionMini>

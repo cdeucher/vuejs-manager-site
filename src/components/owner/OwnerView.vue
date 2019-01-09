@@ -17,6 +17,7 @@
    <div class="row">
      <VehicleMini
           v-for="(vehicle, data) in vehicles"
+          v-bind:key="data"
           v-bind:vehicle="vehicle"
      ></VehicleMini>
    </div>
