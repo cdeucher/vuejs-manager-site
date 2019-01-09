@@ -23,6 +23,12 @@
                                 v-model="vehicle.placa">
             </div>
             <div class="form-group">
+                <label for="placa">VALOR</label>
+                <input type="text" id="value"
+                                class="form-control"
+                                v-model="vehicle.value">
+            </div>
+            <div class="form-group">
                 <label for="message">DETALHES</label><br>
                 <textarea
                         id="detalhes"
@@ -59,6 +65,7 @@
           <OwnerModal
                :vehicleId="vehicleId"
                :errors="errors"
+               @changeOwner="vehicle.owner = $event"
           ></OwnerModal>
         </div>
         <div class="row">
@@ -151,14 +158,16 @@
              })
          },
          submitted: function () {
-           //console.log(this.vehicle)
            const tmp = {
                          modelo:this.vehicle.modelo
                        ,renavan:this.vehicle.renavan
                          ,placa:this.vehicle.placa
                       ,detalhes:this.vehicle.detalhes
                         ,status:this.vehicle.status
+                         ,value:this.vehicle.value
+                         ,owner:this.vehicle.owner._id
                     };
+           //console.log('submitted',tmp)
            axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
               {  headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +185,7 @@
          confirmUpdate(vehicleId){
              this.$router.replace('/vehicle/'+vehicleId)
          },
-         saveOwner: function (ownerMini) {
+         saveOwner_deprecated: function (ownerMini) {
            const tmp = { owner: ownerMini._id };
            axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
               {  headers: {

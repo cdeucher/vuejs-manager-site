@@ -4,7 +4,7 @@
      <div class="card">
        <div class="card-body">
          <h5 class="card-title">{{owner.nome}}</h5>
-         <button v-if="actionCheck" @click="callParent(owner)" type="button" class="btn btn-primary">Check</button>
+         <button v-if="showCheck" @click="callParent(owner)" type="button" class="btn btn-primary">Check</button>
          <router-link
                  v-bind:to="`/owner/${owner._id}`"
                  class="btn btn-primary"
@@ -24,7 +24,7 @@
 
       }
    },
-   props: ['owner','actionCheck'],
+   props: ['owner','showCheck'],
    computed: {
       ...mapGetters({
           token:'token',
@@ -34,13 +34,9 @@
    methods: {
       callParent: function(me){
          try{
-            this.$parent.$parent.actionCheck(me)
+            this.$emit('action', me)
          } catch(e){
-             try{
-                this.$parent.actionCheck(me)
-             } catch(e){
-                console.log('ownerMini - callParent',e)
-             }
+            console.log('ownerMini - callParent',e)
          }
       }
    }

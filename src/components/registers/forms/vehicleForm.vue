@@ -25,6 +25,12 @@
                                     v-model="placa">
                 </div>
                 <div class="form-group">
+                    <label for="placa">VALOR</label>
+                    <input type="text" id="value"
+                                    class="form-control"
+                                    v-model="value">
+                </div>
+                <div class="form-group">
                     <label for="message">DETALHES</label><br>
                     <textarea
                             id="detalhes"
@@ -79,7 +85,8 @@
            renavan:'',
            placa:'',
            detalhes:'',
-           status: 'Proposta'
+           status: 'Proposta',
+           value: 0
         }
      },
      computed: {
@@ -91,7 +98,7 @@
      },
      methods: {
          submitted: function () {
-           const vehicle = { modelo:this.modelo, renavan:this.renavan, placa:this.placa, detalhes:this.detalhes,status:this.status };
+           const vehicle = { modelo:this.modelo, renavan:this.renavan, placa:this.placa, detalhes:this.detalhes, status:this.status, value:this.value };
            console.log(vehicle)
            axios.post(this.host+'/vehicle/', vehicle,
               {  headers: {

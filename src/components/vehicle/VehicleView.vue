@@ -28,9 +28,13 @@
       <hr>
       <div class="row">
          <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <button
+            <button v-if="vehicle.status == 'Estoque'"
                 class="btn btn-success"
-                @click.prevent="submitted">Vender
+                @click.prevent="submitted_sell">Vender
+            </button>
+            <button v-if="vehicle.status == 'Proposta' || vehicle.status == 'Vendido'"
+                class="btn btn-success"
+                @click.prevent="submitted_buy">Comprar
             </button>
          </div>
       </div>
@@ -88,28 +92,13 @@ export default {
                  this.errors.push(e)
            })
       },
-      submitted: function () {
-        //console.log(this.vehicle)
-        const tmp = {
-                      modelo:this.vehicle.modelo
-                    ,renavan:this.vehicle.renavan
-                      ,placa:this.vehicle.placa
-                   ,detalhes:this.vehicle.detalhes
-                     ,status:this.vehicle.status
-                 };
-        axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
-           {  headers: {
-                 'Content-Type': 'application/json',
-                 'Authorization': 'Bearer '+this.token
-              }
-           }).then(response => {
-                 //console.log('then',response)
-                 this.errors.push(response.data)
-                 this.confirmUpdate(this.vehicleId)
-           }).catch(e => {
-                 //console.log('catch',e);
-                 this.errors.push(e)
-           })
+      submitted_sell: function () {
+          //console.log('buy',this.vehicle)
+          this.$router.replace('/transaction/'+this.vehicle._id+'/sell')
+      },
+      submitted_buy: function () {
+          //console.log('buy',this.vehicle)
+          this.$router.replace('/transaction/'+this.vehicle._id+'/buy')
       },
       loadImg: function () {
          for(let i in this.vehicle.imageList){

@@ -109,7 +109,7 @@
      methods: {
          submitted: function () {
            const owner = { nome:this.nome, cpf:this.cpf, rg:this.rg, endereco:this.endereco,email:this.email,telefone:this.telefone,whats:this.whats,detalhes:this.detalhes };
-           console.log(owner)
+           //console.log(owner)
            axios.post(this.host+'/owner/', owner,
               {  headers: {
                     //'Content-Type': 'multipart/form-data',

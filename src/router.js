@@ -13,6 +13,9 @@ import VehicleView  from './components/vehicle/VehicleView.vue';
 import Owner      from './components/owner/Owner.vue';
 import OwnerEdit  from './components/owner/OwnerEdit.vue';
 import OwnerView  from './components/owner/OwnerView.vue';
+import Transaction from './components/transaction/Transaction.vue';
+import TransactionBuy from './components/transaction/TransactionBuy.vue';
+import TransactionSell from './components/transaction/TransactionSell.vue';
 
 Vue.use(VueRouter);
 
@@ -46,6 +49,20 @@ const routes = [
     children:[
           { path: '/vehicle/:id', component: VehicleView },
           { path: '/vehicle/:id/edit', component: VehicleEdit }
+    ],
+    beforeEnter (to, from, next) {
+          //console.log('store',store.state.loged);
+          if (localStorage.getItem('user-token')) {
+              next()
+          } else {
+              next('/login')
+          }
+    }
+  },
+  { path: '/transaction', component: Transaction,
+    children:[
+          { path: '/transaction/:vehicleId/buy', component: TransactionBuy },
+          { path: '/transaction/:vehicleId/sell', component: TransactionSell }
     ],
     beforeEnter (to, from, next) {
           //console.log('store',store.state.loged);

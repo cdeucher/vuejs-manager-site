@@ -20,7 +20,8 @@
                 v-for="(owner, data) in ownersList"
                 v-bind:key="data"
                 v-bind:owner="owner"
-                :actionCheck="true"
+                :showCheck="true"
+                @action="actionCheck"
               ></OwnerMini>
 
             </div>
@@ -77,23 +78,9 @@ export default {
           })
       },
       actionCheck: function (ownerMini) {
-        const tmp = { owner: ownerMini._id };
-        axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
-           {  headers: {
-                 'Content-Type': 'application/json',
-                 'Authorization': 'Bearer '+this.token
-              }
-           }).then(response => {
-                 this.errors.push(response.data)
-                try{
-                  this.$parent.saveOwner(ownerMini)
-                  this.closeModal()
-                }catch(e){
-                  console.log('OwnerModal - actionCheck', e)
-                }
-           }).catch(e => {
-                 this.errors.push(e)
-           })
+          //console.log('changeOwner',ownerMini)
+          this.$emit('changeOwner', ownerMini)
+          this.closeModal()
       },
       openModal: function () {
           if(this.owners.length <= 0){
