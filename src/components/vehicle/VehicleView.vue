@@ -2,25 +2,19 @@
    <div>
 
       <div class="row">
-        <div class="receipt-main col-xs-12 col-sm-12 col-md-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-          <div class="col-xs-6 col-sm-6 col-md-12 text-right">
+
           <VehicleMini
                v-if="vehicle.owner"
                v-bind:vehicle="vehicle"
           ></VehicleMini>
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-12 text-right">
           <OwnerMini
                v-if="vehicle.owner"
                v-bind:owner="vehicle.owner"
           ></OwnerMini>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 text-left">
            <TransactionMini
                 v-bind:transactions="transactions"
            ></TransactionMini>
-          </div>
-        </div>
+
       </div>
       <!-- Save button -->
       <hr>
