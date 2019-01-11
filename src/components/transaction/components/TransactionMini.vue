@@ -1,17 +1,29 @@
 <template>
-   <div>
 
-     <div class="card">
-       <div class="card-body">
-         <p class="card-text">{{index}}) {{transaction.type}}</p>
-         <p class="card-text">{{transaction.owner.nome}}</p>
-         <p class="card-text">{{transaction.financial.description}}</p>
-         <p class="card-text">R${{transaction.financial.value}}</p>
-         <p class="card-text">{{transaction.date}}</p>
-       </div>
-     </div>
+     <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Transaction</th>
+                <th>Owner</th>
+                <th>Date</th>
+                <th>Value</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(transaction, data) in transactions"
+              v-bind:key="data"
+              v-bind:index="data">
 
-   </div>
+              <td>{{transaction.type}}</td>
+              <td>{{transaction.owner.nome}}</td>
+              <td>{{transaction.date}}</td>
+              <td>R${{transaction.financial.value}}</td>
+              <td class="col-sm">{{transaction.financial.description}}</td>
+          </tr>
+        </tbody>
+     </table>
+
 </template>
 
 <script>
@@ -23,7 +35,7 @@
 
       }
    },
-   props: ['transaction','index'],
+   props: ['transactions','index'],
    computed: {
       ...mapGetters({
           token:'token',
