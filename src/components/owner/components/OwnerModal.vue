@@ -9,20 +9,25 @@
       </li>
     </ul>
     <!-- Modal -->
-    <modal name="owner-modal" :adaptive="true" :delay="10" :scrollable="true" height="auto" >
+    <modal name="owner-modal"
+        :adaptive="true"
+        :delay="10"
+        :scrollable="true"
+        :minWidth="800"
+        height="auto" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5>Owners</h5>
             </div>
             <div class="modal-body">
 
-              <OwnerMini
+              <OwnerList
                 v-for="(owner, data) in ownersList"
                 v-bind:key="data"
                 v-bind:owner="owner"
                 :showCheck="true"
                 @action="actionCheck"
-              ></OwnerMini>
+              ></OwnerList>
 
             </div>
             <div class="modal-footer">
@@ -39,7 +44,7 @@
 import axios from 'axios';
 import {mapGetters} from 'vuex';
 
-import OwnerMini  from './OwnerMini.vue';
+import OwnerList  from './OwnerList.vue';
 
 export default {
   name: 'OwnerModal',
@@ -60,7 +65,7 @@ export default {
      this.closeModal()
   },
   components: {
-     OwnerMini:OwnerMini
+     OwnerList:OwnerList
   },
   methods: {
       pullOwner: function () {
@@ -100,6 +105,6 @@ export default {
 <style scoped>
  .card{
     float: left;
-    width: 14rem;
  }
+
 </style>

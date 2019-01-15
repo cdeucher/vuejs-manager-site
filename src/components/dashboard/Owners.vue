@@ -1,10 +1,11 @@
 <template>
    <div>
-      <OwnerMini
+     
+      <OwnerList
         v-for="(owner, data) in ownersList"
         v-bind:key="data"
         v-bind:owner="owner"
-      ></OwnerMini>
+      ></OwnerList>
 
       <ul v-if="errors && errors.length">
         <li v-for="(error, data) in errors" :key="data">
@@ -17,7 +18,7 @@
 <script>
  import axios from 'axios';
  import {mapGetters} from 'vuex';
- import OwnerMini    from '../owner/components/OwnerMini.vue';
+ import OwnerList    from '../owner/components/OwnerList.vue';
 
  export default {
    data(){
@@ -27,7 +28,7 @@
       }
    },
    components: {
-      OwnerMini: OwnerMini
+      OwnerList: OwnerList
    },
    computed: {
       ...mapGetters({
