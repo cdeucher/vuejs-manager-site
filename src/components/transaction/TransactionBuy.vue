@@ -179,19 +179,23 @@ export default {
                    'Authorization': 'Bearer '+this.token
                 }
              }).then(response => {
-                 //console.log('pushOperation',response)
+                 //console.log('errors',this.errors)
+                 //console.log('createBuy',response)
                  this.success.push(response.data)
                  if(this.errors.length == 0)
-                   this.updateVehicle()
+                   this.updateVehicle(response.data)
              }).catch(e => {
                  this.errors.push(e)
              })
       },
-      updateVehicle() {
-        const tmp = { value:this.value
-                     ,owner:this.owner._id
-                    ,status:'Estoque' };
-        //console.log('submitted',tmp)
+      updateVehicle(transactionData) {
+        //console.log('transactionData',transactionData)
+        const tmp = { value: this.value
+                     ,owner: this.owner._id
+                    ,status: 'Estoque'
+             ,transactionId: transactionData.transaction._id
+        };
+        //console.log('updateVehicle',tmp)
         axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
            {  headers: {
                  'Content-Type': 'application/json',

@@ -19,7 +19,15 @@
               <td>{{transaction.owner.nome}}</td>
               <td>{{transaction.date}}</td>
               <td>R${{transaction.financial.value}}</td>
-              <td class="col-sm">{{transaction.financial.description}}</td>
+              <td class="col-sm">{{transaction.financial.description}}
+                <tr v-for="(other, datax) in transaction.others"
+                    v-bind:key="datax"
+                    v-bind:index="datax">
+                    <td>{{other.type}}</td>
+                    <td>{{other.financial.value}}</td>
+                    <td>{{other.financial.description}}</td>
+                </tr>
+              </td>
           </tr>
         </tbody>
      </table>

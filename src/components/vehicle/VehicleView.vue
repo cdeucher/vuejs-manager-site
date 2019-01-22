@@ -28,6 +28,10 @@
                 class="btn btn-success"
                 @click.prevent="submitted_sell">Vender
             </button>
+            <button v-if="vehicle.status == 'Estoque'"
+                class="btn btn-success"
+                @click.prevent="submitted_custo">Add Custo
+            </button>
             <button v-if="vehicle.status == 'Proposta' || vehicle.status == 'Vendido'"
                 class="btn btn-success"
                 @click.prevent="submitted_buy">Comprar
@@ -115,6 +119,9 @@ export default {
       edit(){
           this.$router.replace('/vehicle/'+this.vehicleId+'/edit')
       },
+      submitted_custo(){
+          this.$router.replace('/transaction/'+this.vehicleId+'/other')
+      }
  }
 }
 </script>

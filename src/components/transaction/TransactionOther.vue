@@ -21,20 +21,6 @@
       <div class="row">
           <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
              <div class="form-group">
-                <div class="row">
-                    <h5>Owner</h5>
-                    <OwnerModal
-                         :vehicleId="vehicleId"
-                         :errors="errors"
-                         @changeOwner="owner = $event"
-                    ></OwnerModal>
-                    <OwnerMini
-                          v-if="owner"
-                          v-bind:owner="owner"
-                    ></OwnerMini>
-                </div>
-             </div>
-             <div class="form-group">
                  <label for="placa">VALOR</label>
                  <input type="number"
                         class="form-control"
@@ -54,10 +40,16 @@
          <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <button
                 class="btn btn-success"
-                @click.prevent="sell">Sell
+                @click.prevent="add">Add
             </button>
          </div>
       </div>
+      <!-- success -->
+      <ul v-if="success && success.length">
+        <li v-for="(suc, data) in success" :key="data">
+         {{data}}{{suc.message}}
+        </li>
+      </ul>
       <!-- Logs -->
       <ul v-if="errors && errors.length">
         <li v-for="(error, data) in errors" :key="data">
@@ -72,23 +64,16 @@
 import axios from 'axios';
 import {mapGetters} from 'vuex';
 
-import OwnerModal   from '../owner/components/OwnerModal.vue';
-import OwnerMini    from '../owner/components/OwnerMini.vue';
-
 export default {
   data(){
      return {
         errors: [],
+        success: [],
         vehicle: {owner:{}},
         vehicleId: this.$route.params.vehicleId,
-        owner: '',
         value: 0,
         detail: ''
      }
-  },
-  components: {
-    OwnerModal: OwnerModal,
-     OwnerMini: OwnerMini
   },
   created () {
       this.pullVehicle();
@@ -113,72 +98,52 @@ export default {
                  this.errors.push(e)
             })
       },
-      sell(){
-          var tmp = confirm("Confirmar Venda ?")
+      add(){
+          var tmp = confirm("Confirmar Custo ?")
           if(tmp){
               this.fieldValidation()
-              if(this.errors.length == 0) this.createSell()
-              if(this.errors.length == 0) this.updateVehicle()
+              if(this.errors.length == 0)
+                this.createAdd()
           }else{
-              console.log('Cancel Buy')
+              console.log('Cancel Custo')
           }
       },
-      createSell(){
-          var transaction = {
-              "owner": this.owner._id,
-              "vehicle": this.vehicleId,
-              "type": 'sell',
+      createAdd(){
+          var other = {
+              "transactionId": this.vehicle.transactionId,
+              "type": 'money',
               "financial":{
                 "description":this.detail,
                 "value":this.value,
                 "include": true
               }
           }
-          this.pushOperation(transaction)
+          this.pushOperation(other)
       },
-      updateVehicle() {
-        const tmp = { value:this.value
-                     ,owner:this.owner._id
-                    ,status:'Vendido' };
-        //console.log('submitted',tmp)
-        axios.post(this.host+'/vehicle/'+this.vehicleId, tmp,
-           {  headers: {
-                 'Content-Type': 'application/json',
-                 'Authorization': 'Bearer '+this.token
-              }
-           }).then(response => {
-                 //console.log('then',response)
-                 this.errors.push(response.data)
-                 this.confirmUpdate(this.vehicleId)
-           }).catch(e => {
-                 //console.log('catch',e);
-                 this.errors.push(e)
-           })
-      },
-      confirmUpdate(vehicleId){
-          this.$router.replace('/vehicle/'+vehicleId)
-      },
-      pushOperation: function (transaction) {
-          axios.post(this.host+'/transaction/', transaction,
+      pushOperation: function (other) {
+          axios.post(this.host+'/other/', other,
              {  headers: {
                    'Content-Type': 'application/json',
                    'Authorization': 'Bearer '+this.token
                 }
              }).then(response => {
                  //console.log('pushOperation',response)
-                 this.errors.push(response.data)
+                 this.success.push(response.data)
+                 this.confirmUpdate()
              }).catch(e => {
                  this.errors.push(e)
              })
       },
       fieldValidation(){
           this.errors = []
-          if(this.owner  == '' |
-             this.value  == 0 |
+          if(this.value  == 0 |
              this.detail == ''){
                 this.errors.push({'message':'Field Validation Error'})
           }
-      }
+      },
+      confirmUpdate(){
+          this.$router.replace('/vehicle/'+this.vehicleId)
+      },
  }
 }
 </script>

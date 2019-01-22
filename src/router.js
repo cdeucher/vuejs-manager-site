@@ -16,6 +16,7 @@ import OwnerView  from './components/owner/OwnerView.vue';
 import Transaction from './components/transaction/Transaction.vue';
 import TransactionBuy from './components/transaction/TransactionBuy.vue';
 import TransactionSell from './components/transaction/TransactionSell.vue';
+import TransactionOther from './components/transaction/TransactionOther.vue';
 
 Vue.use(VueRouter);
 
@@ -62,7 +63,8 @@ const routes = [
   { path: '/transaction', component: Transaction,
     children:[
           { path: '/transaction/:vehicleId/buy', component: TransactionBuy },
-          { path: '/transaction/:vehicleId/sell', component: TransactionSell }
+          { path: '/transaction/:vehicleId/sell', component: TransactionSell },
+          { path: '/transaction/:vehicleId/other', component: TransactionOther }
     ],
     beforeEnter (to, from, next) {
           //console.log('store',store.state.loged);
