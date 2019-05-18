@@ -59,7 +59,8 @@
     width: 265px;
  }
  .card-img-top{
-    max-height: 140px;
+     max-width:100%;
+     height:auto;   
  }
  *, *::before, *::after{
     box-sizing: content-box;

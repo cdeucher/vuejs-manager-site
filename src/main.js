@@ -8,6 +8,18 @@ import { store } from './store'
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dynamic: true })
 
+import moment from 'moment'
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY hh:mm')
+  }
+})
+Vue.filter('null', function(value) {
+  if (value) {
+    return (value == undefined) ? '' : value
+  }
+})
+
 new Vue({
   el: '#app',
   router: router,

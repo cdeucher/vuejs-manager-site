@@ -1,17 +1,16 @@
 <template>
-   <div>
+   <div class="buttons">
        <button v-for="(button, index) in options"
                v-bind:key="button.text"
                @click="filterOption(button,index)"
                v-bind:class= "[button.activated == true ? 'btn-primary' : 'btn-default']"
                type="button" class="btn">{{button.text}}</button>
        <hr>
-
-      <VehicleMini
+      <VehicleList
         v-for="(vehicle, data) in even(vehiclesList)"
         v-bind:key="data"
         v-bind:vehicle="vehicle"
-      ></VehicleMini>
+      ></VehicleList>      
 
       <ul v-if="errors && errors.length">
         <li v-for="(error, data) in errors" :key="data">
@@ -24,7 +23,7 @@
 <script>
  import axios from 'axios';
  import {mapGetters} from 'vuex';
- import VehicleMini    from '../vehicle/components/VehicleMini.vue';
+ import VehicleList    from '../vehicle/components/VehicleList.vue';
 
  export default {
    data(){
@@ -35,7 +34,7 @@
       }
    },
    components: {
-      VehicleMini: VehicleMini
+        VehicleList: VehicleList
    },
    computed: {
       ...mapGetters({
@@ -87,3 +86,7 @@
   }
  }
 </script>
+
+<style scoped>
+   hr { margin-bottom: 0px; }
+</style>

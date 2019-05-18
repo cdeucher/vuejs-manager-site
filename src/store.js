@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
     state: {
        loged: '',
        token: '',
-       host: 'http://www:3000',//'http://ec2-52-90-245-155.compute-1.amazonaws.com:3000',//
+       host: 'http://www:4200',
        vehicles: [],
        owners: [],
        options: [

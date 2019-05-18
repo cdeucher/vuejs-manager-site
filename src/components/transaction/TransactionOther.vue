@@ -42,6 +42,10 @@
                 class="btn btn-success"
                 @click.prevent="add">Add
             </button>
+            <button
+                class="btn btn-primary"
+                @click.prevent="view">Ver
+            </button>            
          </div>
       </div>
       <!-- success -->
@@ -144,6 +148,9 @@ export default {
       confirmUpdate(){
           this.$router.replace('/vehicle/'+this.vehicleId)
       },
+      view(){
+          this.$router.replace('/vehicle/'+this.vehicleId)
+      },      
  }
 }
 </script>

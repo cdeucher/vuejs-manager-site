@@ -17,7 +17,7 @@
 
               <td>{{transaction.type}}</td>
               <td>{{transaction.owner.nome}}</td>
-              <td>{{transaction.date}}</td>
+              <td>{{transaction.date | formatDate}}</td>
               <td>R${{transaction.financial.value}}</td>
               <td class="col-sm">{{transaction.financial.description}}
                 <tr v-for="(other, datax) in transaction.others"

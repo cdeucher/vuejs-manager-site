@@ -29,6 +29,18 @@
                                 v-model="vehicle.value">
             </div>
             <div class="form-group">
+                <label for="placa">ANO FRABR.</label>
+                <input type="text" id="value"
+                                class="form-control"
+                                v-model="vehicle.ano_fabricacao">
+            </div>
+            <div class="form-group">
+                <label for="placa">ANO MODEL.</label>
+                <input type="text" id="value"
+                                class="form-control"
+                                v-model="vehicle.ano_modelo">
+            </div>                        
+            <div class="form-group">
                 <label for="placa">VALOR VENDA</label>
                 <input type="text" id="value"
                                 class="form-control"
@@ -175,6 +187,8 @@
                       ,detalhes:this.vehicle.detalhes
                         ,status:this.vehicle.status
                          ,value:this.vehicle.value
+                ,ano_fabricacao:this.vehicle.ano_fabricacao
+                    ,ano_modelo:this.vehicle.ano_modelo
                      ,sellValue:this.vehicle.sellValue
                          ,owner:this.vehicle.owner._id
                     };

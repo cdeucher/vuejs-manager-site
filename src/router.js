@@ -24,7 +24,6 @@ const routes = [
   { path:'/login', component: Login },
   { path:'/register', component: Registers,
     beforeEnter (to, from, next) {
-          //console.log('store',store.state.loged);
           if (localStorage.getItem('user-token')) {
               next()
           } else {
@@ -88,11 +87,12 @@ const routes = [
  ,{ path: '/signup', component: Signup,
     beforeEnter (to, from, next) {
           //console.log('store',store.state.loged);
-          if (localStorage.getItem('user-token')) {
-              next()
-          } else {
-              next('/login')
-          }
+          next()
+          //if (localStorage.getItem('user-token')) {
+          //    next()
+          //} else {
+          //    next('/login')
+          //}
     }
   },
 ]

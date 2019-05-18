@@ -56,6 +56,10 @@
                 class="btn btn-success"
                 @click.prevent="sell">Sell
             </button>
+            <button
+                class="btn btn-primary"
+                @click.prevent="view">Ver
+            </button>            
          </div>
       </div>
       <!-- Logs -->
@@ -178,7 +182,10 @@ export default {
              this.detail == ''){
                 this.errors.push({'message':'Field Validation Error'})
           }
-      }
+      },
+      view(){
+          this.$router.replace('/vehicle/'+this.vehicleId)
+      },       
  }
 }
 </script>

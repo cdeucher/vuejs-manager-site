@@ -1,21 +1,21 @@
 <template>
    <div>
-
-      <div class="row">
-
-          <VehicleMini
-               v-if="vehicle.owner"
-               v-bind:vehicle="vehicle"
-          ></VehicleMini>
-          <OwnerMini
-               v-if="vehicle.owner"
-               v-bind:owner="vehicle.owner"
-          ></OwnerMini>
-           <TransactionMini
-                v-bind:transactions="transactions"
-           ></TransactionMini>
-
-      </div>
+        <hr> 
+        <VehicleList
+            v-if="vehicle.owner"
+            v-bind:vehicle="vehicle"
+        ></VehicleList>
+        <hr>                
+        <OwnerList
+            v-if="vehicle.owner"
+            v-bind:owner="vehicle.owner"
+        ></OwnerList>
+       
+        <hr>                 
+        <TransactionMini
+            v-bind:transactions="transactions"
+        ></TransactionMini>
+     
       <!-- Save button -->
       <hr>
       <div class="row">
@@ -53,8 +53,10 @@
 import axios from 'axios';
 import {mapGetters} from 'vuex';
 
-import OwnerMini    from '../owner/components/OwnerMini.vue';
-import VehicleMini    from '../vehicle/components/VehicleMini.vue';
+//import OwnerMini    from '../owner/components/OwnerMini.vue';
+import OwnerList    from '../owner/components/OwnerList.vue';
+//import VehicleMini    from '../vehicle/components/VehicleMini.vue';
+import VehicleList    from '../vehicle/components/VehicleList.vue';
 import TransactionMini    from '../transaction/components/TransactionMini.vue';
 
 export default {
@@ -67,9 +69,9 @@ export default {
      }
   },
   components: {
-     OwnerMini: OwnerMini,
+     OwnerList: OwnerList,
      TransactionMini:TransactionMini,
-     VehicleMini:VehicleMini
+     VehicleList:VehicleList
   },
   created () {
       this.pullVehicle()
