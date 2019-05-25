@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
                  { text: 'Alienado', value: 'Alienado', activated:false },
                  { text: 'Desativado', value: 'Desativado', activated:false }
                ],
-       filter : undefined
+       filter : 'Proposta'
     },
     getters:{
         loged(state){

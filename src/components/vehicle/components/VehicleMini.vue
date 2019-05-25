@@ -1,7 +1,7 @@
 <template>
    <div class="card-top">
 
-     <div class="card">
+     <div class="card" v-viewer="{movable: false}">
        <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
        <div class="card-body">
          <h5 class="card-title">{{vehicle.modelo}}</h5>

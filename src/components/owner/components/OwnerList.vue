@@ -10,6 +10,10 @@
                    v-bind:to="`/owner/${owner._id}`"
                    class="btn btn-primary"
                    style="cursor: pointer">See</router-link></div>
+           <div  class="col"><router-link
+                   v-bind:to="`/owner/${owner._id}/edit`"
+                   class="btn btn-primary"
+                   style="cursor: pointer">Edit</router-link></div>                   
        </div>
 
 </template>

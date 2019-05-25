@@ -1,7 +1,10 @@
 <template>
 
        <div class="row">
-           <div  class="col"><img class="card-img-top" v-bind:src="imgHost" alt="Card image cap"></div>
+           <div  class="col" v-viewer="{movable: false}">
+                  <img class="card-img-top" v-bind:src="imgHost" alt="Card image cap">
+                  <img class="card-img-top-hidden" v-for="image in even(vehicle.imageList)" :src="host+'/'+image.path" :key="image.path">
+           </div>
            <div  class="col">{{vehicle.modelo}}</div>
            <div  class="col">{{vehicle.renavan}}</div>
            <div  class="col">{{vehicle.placa}}</div>
@@ -34,6 +37,9 @@
           owner : {},
       }
    },
+   components: {
+ 
+   },   
    mounted(){
      this.loadImg()
      this.checkOwner()
@@ -58,7 +64,12 @@
          if(this.vehicle.owner !== undefined){  
            this.owner = this.vehicle.owner;             
          }  
-      }
+      },
+      even: function (imageList) {
+         return imageList.filter((image) =>{
+            return image.target != "doc"
+         })
+      }     
    }   
  }
 </script>
@@ -79,4 +90,11 @@
      min-width: 80px;
      height:auto;   
  }  
+ .card-img-top-hidden{
+     max-width:100%;
+     min-height: 80px;
+     min-width: 80px;
+     height:auto;
+     display: none;
+ }
 </style>

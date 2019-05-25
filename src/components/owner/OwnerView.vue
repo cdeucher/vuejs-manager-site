@@ -15,11 +15,11 @@
      </div>
    </div>
    <div class="row">
-     <VehicleMini
+     <VehicleList
           v-for="(vehicle, data) in vehicles"
           v-bind:key="data"
           v-bind:vehicle="vehicle"
-     ></VehicleMini>
+     ></VehicleList>
    </div>
      <router-view></router-view>
 
@@ -34,7 +34,8 @@
 <script>
 import axios from 'axios';
 import {mapGetters} from 'vuex';
- import VehicleMini    from '../vehicle/components/VehicleMini.vue';
+//import VehicleMini    from '../vehicle/components/VehicleMini.vue';
+import VehicleList    from '../vehicle/components/VehicleList.vue';
 
 export default {
   data(){
@@ -46,7 +47,7 @@ export default {
      }
   },
   components: {
-     VehicleMini: VehicleMini
+     VehicleList: VehicleList
   },
   created () {
       this.pullOwner()

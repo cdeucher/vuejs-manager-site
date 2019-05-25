@@ -1,6 +1,6 @@
 <template>
    <div>
-     <div class="card">
+     <div v-viewer="{movable: false}" class="card">
        <img class="card-img-top" v-bind:src="`${host}/${imgHost}`" alt="Card image cap">
        <div class="card-body">
          <button type="button" class="btn btn-danger"  @click.prevent="imgSubmit">Excluir</button>
